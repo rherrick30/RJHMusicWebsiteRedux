@@ -1,0 +1,232 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Libre Baskerville',Georgia,serif;
+  }
+  
+.footer {
+    font-size: 0.7em;  
+}
+
+/* Music Player styles  */
+.playerControl{
+    padding: 5px;
+    width: 30px;
+    display: inline-block;
+}
+
+.playerTimeDisplay{
+    padding: 10px;
+    width: 50px;
+    display: inline-block;
+}  
+
+.playerSongProgress{
+    width: 200px;
+    background: transparent;
+}
+
+.playerVolumeControl{
+    width: 80px;
+    background: transparent;
+}
+
+
+input[type=range] {
+    height: 25px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 2px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000;
+    background: #000000;
+    border-radius: 1px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 1px solid #2497E3;
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #2497E3;
+  }
+  input[type=range]::-moz-range-track {
+    height: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000;
+    background: #2497E3;
+    border-radius: 1px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 1px solid #2497E3;
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    height: 5px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: transparent;
+    border: 0px solid #000000;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: transparent;
+    border: 0px solid #000000;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    box-shadow: 0px 0px 0px #000000;
+    border: 1px solid #2497E3;
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: transparent;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: transparent;
+  }
+/**/
+
+  /* About (Player Status) styles */
+.about,  {
+    height: 1024px;
+    width: 1024px;
+    display: block;
+    position: relative;
+}
+  
+.about::after{
+    content: "";
+    background-image: url('./Tuscan_Landscape_7.jpg');
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1; 
+}
+
+.playerbutton{
+    background-color: transparent;
+}
+
+.playlistButton{
+    background-color: transparent;
+    font-family: 'Libre Baskerville',Georgia,serif;
+    border: 2px solid white;
+    padding: 5px;
+}
+
+.aboutMusicTile{
+    border: 1px solid black;
+    background: whitesmoke ;
+    display: block;
+    width: 1000px;
+    color: royalblue;
+}
+
+.aboutMusicTileSource{
+    font-size: 0.7em;
+    color: black;
+}
+
+  /*Artist List Styles */
+  .artistBrowserListEntry{
+    text-decoration: none;
+    color: black;
+}
+  
+  
+.artistBrowserList{
+      width: 400px;
+      height: 500px;
+      overflow-y: scroll;
+      text-align: center;
+      color: black;
+      background-color: whitesmoke;
+      float: left;
+}
+  
+.artistListArtistDetail{
+      width: 600px;
+      height: 500px;
+      left: 400px;  
+      display: inline-block;
+      background-color: tan;
+      overflow-y: scroll;
+}
+  
+.artistListAlbumTitle{
+      font-size: 1.2em;
+      font-weight: bold;
+}
+  
+    .tooltip {
+      position: relative;
+      display: inline-block;
+}
+  
+.tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      bottom: 100%;
+      left: 50%;
+      margin-left: 10px;
+      
+      /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+      opacity: 0;
+      transition: opacity 1s ease-in-out 1s;
+}
+  
+.tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+}
+  
+a, icon{
+    color: black;
+    text-decoration: none;
+}
+
+.addedMessage {
+    opacity: 0;
+    transition: opacity 2s ease-out 1s;
+}
