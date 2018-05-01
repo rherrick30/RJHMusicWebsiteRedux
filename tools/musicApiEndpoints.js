@@ -70,7 +70,7 @@ app.post('/album',requestBodyParser, (req, res) =>{
     case -1:
       res.status(304).send(`Album already exists`);
       break;
-    case -2:  
+    case -2:
       res.status(400).send(`Album object was malformed or missing data ${albumValidationMessage(req.body)}`);
       break;
     case -3:
@@ -90,7 +90,7 @@ app.put('/album',requestBodyParser, (req, res) => {
     case -1:
       res.status(400).send(`Album not found`);
       break;
-    case -2:  
+    case -2:
       res.status(400).send(`Album object was malformed or missing data ${albumValidationMessage(req.body)}`);
       break;
     case -3:
@@ -134,7 +134,7 @@ switch(resultCode){
   case -1:
     res.status(304).send(`Artist already exists`);
     break;
-  case -2:  
+  case -2:
     res.status(400).send(`Artist object was malformed or missing data ${artistValidationMessage(req.body)}`);
     break;
   case 1:
@@ -151,7 +151,7 @@ switch(resultCode){
   case -1:
     res.status(400).send(`Artist not found`);
     break;
-  case -2:  
+  case -2:
     res.status(400).send(`Artist object was malformed or missing data ${artistValidationMessage(req.body)}`);
     break;
   case -3:
@@ -176,10 +176,10 @@ app.post('/listeningList', requestBodyParser, (req, res)=>{
     case -1:
       res.status(500).send(`An internal error has occured.`);
       break;
-    case -2:  
+    case -2:
       res.status(400).send(`ListeningList object was malformed or missing data`);
       break;
-    case -3:  
+    case -3:
     res.status(304).send(`ListeningList object already exists`);
     break;
   case 1:
@@ -188,7 +188,7 @@ app.post('/listeningList', requestBodyParser, (req, res)=>{
     default:
       res.status(500).send('An internal error has occured.');
   }
-  
+
 });
 
 app.delete('/listeningList/:type/:id',requestBodyParser,  (req, res)=>{
@@ -197,7 +197,7 @@ app.delete('/listeningList/:type/:id',requestBodyParser,  (req, res)=>{
     case -1:
       res.status(500).send(`An internal error has occured.`);
       break;
-    case -2:  
+    case -2:
       res.status(400).send(`ListeningList object was malformed or missing data ${artistValidationMessage(req.body)}`);
       break;
     case 1:
@@ -213,11 +213,11 @@ app.delete('/listeningList/:type/:id',requestBodyParser,  (req, res)=>{
 
 app.get('/albumCount', (req, res)=>{
   res.send( { albumCount: collectionApi.albumCount});
-}); 
+});
 
 app.get('/artistCount', (req, res)=>{
   res.send( { artistCount: collectionApi.artistCount});
-}); 
+});
 
 app.post('/albumQuery', requestBodyParser,(req,res)=>{
   res.send(collectionApi.albumQuery(req.body));
@@ -240,7 +240,7 @@ app.get('/randomSong', (req, res) => {
 });
 
 app.post('/albumAggQuery',requestBodyParser, (req, res)=>{
-  
+
   if(!req.body.column){
     res.status(400).send('Body was malformed.  Should be a Json document with a "column" entry.');
   }
@@ -280,7 +280,7 @@ app.get('/song/:id', (req, res)=>{
 
 
 
-  const path = process.env.MUSIC_HOME_FOLDER + song[0].fullpath;
+  const path = process.env.MUSIC_HOME_FOLDER + song[0].fullpath.replace(/\\/g,process.env.FOLDER_DIR_SEPARATOR);
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -288,7 +288,7 @@ app.get('/song/:id', (req, res)=>{
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
     const start = parseInt(parts[0], 10);
-    const end = parts[1] 
+    const end = parts[1]
       ? parseInt(parts[1], 10)
       : fileSize-1;
     const chunksize = (end-start)+1;
