@@ -1,7 +1,7 @@
 {
-  "name": "pluralsight-redux-starter",
+  "name": "RJHMusicWebsiteRedux",
   "version": "1.0.0",
-  "description": "Starter kit for React and Redux Pluralsight course by Cory House",
+  "description": "A music management and streaming server usign Cory House's awesome starter kit",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
     "presharewstart": "babel-node tools/startMessage.js",
@@ -14,15 +14,16 @@
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
   },
-  "author": "Cory House",
+  "author": "Rob Herrick",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.17.1",
     "babel-polyfill": "6.8.0",
     "body-parser": "^1.18.2",
     "bootstrap": "3.3.6",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.1",
-    "jquery": "2.2.3",
+    "jquery": "3.0.0",
     "localtunnel": "^1.8.3",
     "react": "15.0.2",
     "react-dom": "15.0.2",
@@ -75,6 +76,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coryhouse/pluralsight-redux-starter"
+    "url": "https://github.com/rherrick30/RJHMusicWebsiteRedux"
   }
 }
