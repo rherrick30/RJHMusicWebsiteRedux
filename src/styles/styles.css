@@ -156,9 +156,25 @@ input[type=range] {
     color: royalblue;
 }
 
+.aboutMusicTile::selection{
+  background: transparent
+}
+
+.aboutMusicTile::-moz-selection { /* Code for Firefox */
+  background: transparent
+}
+
 .aboutMusicTileSource{
     font-size: 0.7em;
     color: black;
+}
+
+.aboutMusicTileSource::selection{
+  background: transparent
+}
+
+.aboutMusicTileSource::-moz-selection { /* Code for Firefox */
+  background: transparent
 }
 
   /*Artist List Styles */

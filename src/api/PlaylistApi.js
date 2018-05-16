@@ -44,6 +44,15 @@ class PlaylistApi{
             resolve(Object.assign([], playlist));
           });
     }
+    static swapTwoItems(from,to){
+        return new Promise((resolve, reject) => {
+            const temp = playlist[to];
+            playlist[to] = playlist[from];
+            playlist[from] = temp;
+            console.log(`in API->${JSON.stringify(playlist)}`)
+            resolve(Object.assign([], playlist));
+        });
+    }
 }
 
 

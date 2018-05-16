@@ -29,6 +29,9 @@ export function shufflePlaylistSuccess(playlist){
     return {type: types.SHUFFLE_PLAYLIST_SUCCESS, playlist };
 }
 
+export function swapTwoItemsSuccess(playlist){
+    return {type: types.SWAP_PLAYLIST_SUCCESS, playlist};
+}
 
 /* simple actions without api interaction */
 export function clearPlaylist(){
@@ -90,3 +93,16 @@ export function removePlaylist(song){
     };   
 }
 
+export function swapTwoItems(playlist,from,to){
+    return function(dispatch, getstate){
+        let newPlaylist = Object.assign([], playlist);
+       const temp = newPlaylist[from];
+       delete newPlaylist[from];
+       newPlaylist.splice(to, 0, temp);
+       newPlaylist.forEach((s,ndx) =>{
+        if (s === undefined){delete newPlaylist[ndx];}
+       });
+        dispatch(swapTwoItemsSuccess(newPlaylist));
+    };
+  
+}
