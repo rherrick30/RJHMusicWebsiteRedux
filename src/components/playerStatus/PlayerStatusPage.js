@@ -3,9 +3,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as playlistActions from '../../actions/playlistActions';
 import * as songhistActions from '../../actions/songhistActions';
+import SongTile from './SongTile';
+import SortableSongList from './SortableSongList';
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+import {render} from 'react-dom';
 
 
-class AboutPage extends  React.Component{
+
+
+class PlayerStatusPage extends  React.Component{
     constructor(props, context){
         super(props, context);
         this.state = {
@@ -13,6 +19,9 @@ class AboutPage extends  React.Component{
         };
         this.clearPlaylist = this.clearPlaylist.bind(this);
         this.shufflePlaylist = this.shufflePlaylist.bind(this);
+        this.addSongToEnd = this.addSongToEnd.bind(this);
+        this.addSongToTop = this.addSongToTop.bind(this);
+        this.onSortEnd = this.onSortEnd.bind(this);
     }
     clearPlaylist(){
         this.props.playlistActions.clearPlaylist({});
@@ -20,7 +29,25 @@ class AboutPage extends  React.Component{
     shufflePlaylist(){
         this.props.playlistActions.shufflePlaylist(this.props.playlist);
     }
+    addSongToEnd(song){
+        this.props.playlistActions.pushPlaylist({ songs : [song]});
+    }
+    addSongToTop(song){
+        this.props.playlistActions.addPlaylistNext({ songs : [song]});
+    }
+    onSortEnd({oldIndex, newIndex}){
+        console.log(`old index is ${oldIndex} and new index is ${newIndex}`);
+        this.props.playlistActions.swapTwoItems(this.props.playlist,oldIndex,newIndex);
+    }
     render(){
+        const queueButtons = [
+            {iconClass: "fas fa-times-circle", actionFx : this.props.playlistActions.removePlaylist}
+        ];
+        const historyButtons = [
+            {iconClass: "fas fa-arrow-alt-circle-up", actionFx : this.addSongToTop},
+            {iconClass: "fas fa-arrow-alt-circle-down", actionFx : this.addSongToEnd}
+        ];
+
         return(
             <div className="about">
                 <h1>Player Status</h1>
@@ -28,14 +55,12 @@ class AboutPage extends  React.Component{
                 <input type="button" className="playlistButton" value="Shuffle Playlist" onClick={this.shufflePlaylist}/>
                 <div className="aboutCurrentlyPlaying" >
                 <h5>Current Queue:</h5>
-                {this.props.playlist.map((a,ndx) =>{
-                return(<div key={ndx + ":playlist"} className="aboutMusicTile">{a.songName} <span className="aboutMusicTileSource">(from {a.title} by {a.artist})</span></div>);
-                })} 
                 </div>
+                <SortableSongList songs={this.props.playlist} actionButtons={queueButtons} keyName="playlist" onSortEnd={this.onSortEnd}/>
                 <div className="aboutSongHistory" >
                 <h5>Play History:</h5>
                 {this.props.songhist.map((s,ndx) =>{
-                return(<div key={ndx + ":history"} className="aboutMusicTile">{s.songName} <span className="aboutMusicTileSource">(from {s.title} by {s.artist})</span></div>);
+                return(<SongTile key={ndx + ":history"} parentKey={ndx + ":history"} song={s} actionButtons={historyButtons}/>);
                 })}
                 </div>
                 <div className="footer">
@@ -47,7 +72,7 @@ class AboutPage extends  React.Component{
 }
 
 
-AboutPage.propTypes = {
+PlayerStatusPage.propTypes = {
     songhist : PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     playlist: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     playlistActions: PropTypes.object.isRequired
@@ -67,5 +92,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AboutPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerStatusPage);
 
