@@ -8,8 +8,8 @@ import fs from 'fs';
 let albums = JSON.parse(fs.readFileSync("./tools/data/Albums.json"));
 let artists = JSON.parse(fs.readFileSync("./tools/data/Artists.json"));
 let songs = JSON.parse(fs.readFileSync("./tools/data/Songs.json"));
-let listeningList = JSON.parse(fs.readFileSync("./tools/data/ListeningList.json"));
-
+//let listeningList = JSON.parse(fs.readFileSync("./tools/data/ListeningList.json"));
+let listeningList = [];
 
 let aggQuery = (collection, col, stats) => {
     let returnVal = [];

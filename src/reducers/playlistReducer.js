@@ -19,7 +19,6 @@ const playlistReducer = (state = { playlist: initialState.playlist}, action) => 
         case types.SHUFFLE_PLAYLIST_SUCCESS:
             return action.playlist;   
         case types.SWAP_PLAYLIST_SUCCESS:
-        console.log(`in reducer->${JSON.stringify(action.playlist)}`)
             return action.playlist;     
         default:    
             return state;
