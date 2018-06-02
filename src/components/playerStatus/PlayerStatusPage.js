@@ -21,6 +21,7 @@ class PlayerStatusPage extends  React.Component{
         this.shufflePlaylist = this.shufflePlaylist.bind(this);
         this.addSongToEnd = this.addSongToEnd.bind(this);
         this.addSongToTop = this.addSongToTop.bind(this);
+        this.removeSong = this.removeSong.bind(this);
         this.onSortEnd = this.onSortEnd.bind(this);
     }
     clearPlaylist(){
@@ -35,13 +36,16 @@ class PlayerStatusPage extends  React.Component{
     addSongToTop(song){
         this.props.playlistActions.addPlaylistNext({ songs : [song]});
     }
+    removeSong(song){
+        console.log(`...weve gotten to main form with ${JSON.stringify(song)}`)
+        this.props.playlistActions.removePlaylist(song);
+    }
     onSortEnd({oldIndex, newIndex}){
-        console.log(`old index is ${oldIndex} and new index is ${newIndex}`);
         this.props.playlistActions.swapTwoItems(this.props.playlist,oldIndex,newIndex);
     }
     render(){
         const queueButtons = [
-            {iconClass: "fas fa-times-circle", actionFx : this.props.playlistActions.removePlaylist}
+            {iconClass: "fas fa-times-circle", actionFx : this.removeSong}
         ];
         const historyButtons = [
             {iconClass: "fas fa-arrow-alt-circle-up", actionFx : this.addSongToTop},
@@ -56,7 +60,13 @@ class PlayerStatusPage extends  React.Component{
                 <div className="aboutCurrentlyPlaying" >
                 <h5>Current Queue:</h5>
                 </div>
-                <SortableSongList songs={this.props.playlist} actionButtons={queueButtons} keyName="playlist" onSortEnd={this.onSortEnd}/>
+                <SortableSongList 
+                    pressDelay={200}
+                    songs={this.props.playlist} 
+                    actionButtons={queueButtons} 
+                    keyName="playlist" 
+                    onSortEnd={this.onSortEnd}
+                />
                 <div className="aboutSongHistory" >
                 <h5>Play History:</h5>
                 {this.props.songhist.map((s,ndx) =>{
