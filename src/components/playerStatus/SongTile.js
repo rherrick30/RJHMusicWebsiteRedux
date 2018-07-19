@@ -4,7 +4,6 @@ import {render} from 'react-dom';
 
 const SongTile = (props) => {
     const _actionClick = (sender) => {
-        console.log(`..in tile, song is ${JSON.stringify(props.song)}`)
         props.actionButtons[sender.target.value].actionFx(props.song);
     };
     let buttons = 

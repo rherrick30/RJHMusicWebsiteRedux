@@ -49,7 +49,6 @@ class PlaylistApi{
             const temp = playlist[to];
             playlist[to] = playlist[from];
             playlist[from] = temp;
-            console.log(`in API->${JSON.stringify(playlist)}`)
             resolve(Object.assign([], playlist));
         });
     }

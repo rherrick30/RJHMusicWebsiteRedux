@@ -37,7 +37,6 @@ class PlayerStatusPage extends  React.Component{
         this.props.playlistActions.addPlaylistNext({ songs : [song]});
     }
     removeSong(song){
-        console.log(`...weve gotten to main form with ${JSON.stringify(song)}`)
         this.props.playlistActions.removePlaylist(song);
     }
     onSortEnd({oldIndex, newIndex}){
