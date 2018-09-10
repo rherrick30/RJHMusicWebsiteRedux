@@ -37,8 +37,11 @@ const apiHelper = {
     randomArtist(){
         return getFunction(baseUrl + 'randomArtist');
     },
-    randomSong(){
-        return getFunction(baseUrl + 'randomSong');
+    randomSong(item){
+        if(item === undefined)
+            return getFunction(baseUrl + 'randomSong');
+        else     
+            return getFunction(baseUrl + 'randomSong/'+item);
     },
     artistSearch(searchPattern){
         return getFunction( baseUrl + 'artistSearch/'+ searchPattern);
@@ -61,9 +64,6 @@ const apiHelper = {
     artist(id){
         return getFunction(baseUrl + 'artist/' + id);
     },
-    getListeningList(){
-        return getFunction(baseUrl + 'listeningList');
-    },
     addArtist(artist){
         return postFunction(baseUrl + 'artist', artist );
     },
@@ -82,13 +82,6 @@ const apiHelper = {
     deleteAlbum( id ){
         return deleteFunction(baseUrl + 'album/' + id );
     },
-    addToListeningList( item ){
-        return postFunction(baseUrl + 'listeningList', item );
-    },
-    deleteFromListeningList(item){
-        let type = (item.title) ? 'album' : 'artist';
-        return deleteFunction(baseUrl + `listeningList/${type}/${item._id}`);
-    },
     albumQuery(queryOptions, updateFuntion, errorFunction){
         return postFunction(baseUrl + 'albumQuery', queryOptions, updateFuntion, errorFunction);
     },
@@ -100,7 +93,20 @@ const apiHelper = {
     },
     artistAggQuery(queryOptions){
         return postFunction(baseUrl + 'artistAggQuery', queryOptions);
+    },
+    savePlayList(playlist){
+        return postFunction(baseUrl + 'playlist', playlist);
+    },
+    getPlayLists(){
+        return getFunction(baseUrl + 'playlists');
+    },
+    getPlaylist(name){
+        return getFunction(baseUrl + 'playlist/' + name);
+    },
+    playlistsongs(item){
+        return getFunction(baseUrl + 'playlistsongs/' + item);
     }
+
 
 };
 

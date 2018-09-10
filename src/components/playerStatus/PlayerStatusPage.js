@@ -7,6 +7,7 @@ import SongTile from './SongTile';
 import SortableSongList from './SortableSongList';
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 import {render} from 'react-dom';
+import apiHelper from '../../api/apiHelper';
 
 
 
@@ -15,20 +16,42 @@ class PlayerStatusPage extends  React.Component{
     constructor(props, context){
         super(props, context);
         this.state = {
-
+            playlistName: ""
         };
         this.clearPlaylist = this.clearPlaylist.bind(this);
         this.shufflePlaylist = this.shufflePlaylist.bind(this);
+        this.savePlaylist = this.savePlaylist.bind(this);
         this.addSongToEnd = this.addSongToEnd.bind(this);
         this.addSongToTop = this.addSongToTop.bind(this);
         this.removeSong = this.removeSong.bind(this);
         this.onSortEnd = this.onSortEnd.bind(this);
+        this.onPlaylistNameChange= this.onPlaylistNameChange.bind(this);
     }
     clearPlaylist(){
         this.props.playlistActions.clearPlaylist({});
     }
     shufflePlaylist(){
         this.props.playlistActions.shufflePlaylist(this.props.playlist);
+    }
+    savePlaylist(){
+        const newPaylist = {
+            name: this.state.playlistName,
+            entries: this.props.playlist.map( s=>{
+                return{
+                    type: "song",
+                    key: s.songPk,
+                    title:  `${s.songName} (from ${s.title} by ${s.artist})`
+                };
+            })
+        };
+        apiHelper.savePlayList(newPaylist).then(
+            (result) =>{},
+            (err) => {}
+        );
+    }
+    onPlaylistNameChange(sender){
+        const playListName = sender.target.value;
+        this.setState(prevState=>({playlistName: playListName}));
     }
     addSongToEnd(song){
         this.props.playlistActions.pushPlaylist({ songs : [song]});
@@ -56,6 +79,10 @@ class PlayerStatusPage extends  React.Component{
                 <h1>Player Status</h1>
                 <input type="button" className="playlistButton" value="Clear Playlist" onClick={this.clearPlaylist}/>
                 <input type="button" className="playlistButton" value="Shuffle Playlist" onClick={this.shufflePlaylist}/>
+                <div >
+                    <input type="text" onChange={this.onPlaylistNameChange}  />
+                    <input type="button" className="playlistButton" value="Save Playlist" onClick={this.savePlaylist}/>
+                </div>
                 <div className="aboutCurrentlyPlaying" >
                 <h5>Current Queue:</h5>
                 </div>

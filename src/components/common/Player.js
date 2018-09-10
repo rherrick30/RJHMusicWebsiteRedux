@@ -22,7 +22,9 @@ class Player extends React.Component {
             volBtnClass : "fas fa-volume-up",
             message: "Now playing:",
             autoplay: false,
-            history: []
+            history: [],
+            playlists: [],
+            selectedPlaylist : "(none)"
         };
         this.nextFile = this.nextFile.bind(this); 
         this.playAudio = this.playAudio.bind(this);
@@ -32,6 +34,24 @@ class Player extends React.Component {
         this.timeUpdateHandler = this.timeUpdateHandler.bind(this);
         this.volumeAdjust = this.volumeAdjust.bind(this);
         this.songScan = this.songScan.bind(this);
+        this.setPlaylists = this.setPlaylists.bind(this);
+        this.selectPlaylist = this.selectPlaylist.bind(this);
+        apiHelper.getPlayLists().then(
+            result => { this.setPlaylists(result); },
+            err => {}
+        );
+    }
+    setPlaylists(result){
+        this.setState(prevState => ({
+            playlists: result
+        }));
+    }
+    selectPlaylist(event){
+        let newTag = event.target.value;
+        this.props.playlistActions.setTag(newTag);
+        this.setState(prevState => ({
+            selectedPlaylist: newTag
+        }));
     }
     setSong(data){
         if( data.length > 0)
@@ -52,7 +72,11 @@ class Player extends React.Component {
                 this.setSong([this.props.playlist[0]]);
             }
             else{
-                apiHelper.randomSong().then(this.setSong);
+                if(this.state.selectedPlaylist == "(none)"){
+                    apiHelper.randomSong().then(this.setSong);
+                }else{
+                    apiHelper.randomSong(this.state.selectedPlaylist).then(this.setSong);
+                }
             }
         });
     }
@@ -108,7 +132,7 @@ class Player extends React.Component {
     }
     render(){
           return(
-                <div>
+                <div className="player">
                 <p><span className="grandSongTitle">{this.state.song.songName}</span>{(this.state.song.songPk === -1) ? "" : " by "}
                 <span className="grandArtist">{this.state.song.artist}</span> {(this.state.song.songPk === -1) ? "" : " (from the album " + this.state.song.title + ")"}</p>
                 <audio id="audioPlayer" 
@@ -132,7 +156,13 @@ class Player extends React.Component {
                     <input className="playerSongProgress" type="range" id="songProgress" min="0" max="100" onChange={this.songScan} />
                 </div>
                 <div>
-                there are {(this.props.playlist) ? this.props.playlist.length : 'null'} entries in the playlist
+                there are {(this.props.playlist) ? this.props.playlist.length : 'null'} entries in the playlist. 
+                Current Tag:<span>   </span><select onChange={this.selectPlaylist}>
+                    <option>(None)</option>
+                    {this.state.playlists.map(e=>{
+                        return(<option key={e.name}>{e.name}</option>);
+                    })}
+                    </select>
                 </div>
                 </div>
         );

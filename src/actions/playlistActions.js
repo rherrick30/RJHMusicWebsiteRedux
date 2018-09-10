@@ -33,6 +33,14 @@ export function swapTwoItemsSuccess(playlist){
     return {type: types.SWAP_PLAYLIST_SUCCESS, playlist};
 }
 
+export function queryTagSuccess(){
+    return {type: types.QUERY_TAG_SUCCESS};
+}
+
+export function setTagSuccess(tag){
+    return {type: types.SET_TAG_SUCCESS, tag};
+}
+
 /* simple actions without api interaction */
 export function clearPlaylist(){
     return function(dispatch, getState){
@@ -50,6 +58,18 @@ export function shufflePlaylist(playlist){
     };
 }
 
+
+export function queryTag(){
+    return function(dispatch){
+        dispatch(queryTagSuccess());
+    };
+}
+
+export function setTag(tag){
+    return function(dispatch){
+        dispatch(setTagSuccess(tag));
+    };
+}
 
 /* actions interacting w/api */
 export function queryPlaylist(){

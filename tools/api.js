@@ -1,15 +1,25 @@
-//import albums from './data/Albums.json';
-//import artists from './data/Artists.json';
-//import songs from './data/Songs.json';
-//import listeningList from './data/ListeningList.json';
 import _ from 'lodash';
 import fs from 'fs';
+require('dotenv').config();
 
-let albums = JSON.parse(fs.readFileSync("./tools/data/Albums.json"));
-let artists = JSON.parse(fs.readFileSync("./tools/data/Artists.json"));
-let songs = JSON.parse(fs.readFileSync("./tools/data/Songs.json"));
-//let listeningList = JSON.parse(fs.readFileSync("./tools/data/ListeningList.json"));
-let listeningList = [];
+let albums = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Albums.json"));
+let artists = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Artists.json"));
+let songs = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Songs.json"));
+let playlists = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "playlists.json"));
+
+let fleshedOutSongs = _.flatten(albums.map( a=>{
+    return a.songs.map(s=>{
+        return {
+            songName: s.songName,
+            title: a.title,
+            artist: a.artist,
+            albKey: a._id,
+            artistKey: a.artistfk,
+            songPk: s.songPk,
+            sizeInMb: s.sizeInMb
+        };
+    });
+}));
 
 let aggQuery = (collection, col, stats) => {
     let returnVal = [];
@@ -38,15 +48,16 @@ let aggQuery = (collection, col, stats) => {
     });
 };
 
-let writeListeningList = () => {
-    let list = listeningList.map((item)=>{
-        return `{ "type":"${item.type}", "key": ${item.key} }`;
+let writePlaylists = () => {
+    let list = playlists.map((item)=>{
+        return `{ "name":"${item.name}", "entries":[${
+            item.entries.map(s=>{
+                return `{"type":"${s.type}", "key":"${s.key}", "title":"${s.title}"}`;
+            })
+        }] }\n`;
     });
 
-    fs.writeFile('./data/ListeningList.json', '[' + list + ']', (err)=>{
-        if(err) {
-            return 'error writing listening list->' + err;
-        }
+    fs.writeFile(process.env.MUSIC_CONFIGURATION_FILES + "playlists.json", '[\n' + list + ']', (err)=>{
 });};
 
 let getNextId = (collection) => {
@@ -116,22 +127,34 @@ let validArtist = (art) => {
     );
 };
 
-let validListeningListItem = (lli) => {
-    return (lli._id && lli.artist);
+let validPlayList = (pl) => {
+    if(pl.name===undefined || pl.entries===undefined) { return false;}
+    if(!Array.isArray(pl.entries)) { return false;}
+    let isValid = true;
+    pl.entries.forEach( e => {
+        if(e.key===undefined || e.type===undefined || e.title===undefined ) { isValid = false; return false;}
+        if( e.key != parseInt(e.key,10)) { isValid = false; return false;}
+        if( e.type.toLowerCase() != "song" && e.type.toLowerCase() != "album" && e.type.toLowerCase() != "artist") {isValid = false; return false;}
+    });
+    return isValid;
 };
 
 let songList = () => {
-    return _.flatten(albums.map( a=>{
+    return fleshedOutSongs;
+    /*_.flatten(albums.map( a=>{
             return a.songs.map(s=>{
                 return {
                     songName: s.songName,
                     title: a.title,
                     artist: a.artist,
                     albKey: a._id,
-                    songPk: s.songPk
-                };
+                    artistKey: a.artistfk,
+                    songPk: s.songPk,
+                    sizeInMb: s.sizeInMb
+                }
             });
        }));
+       */
 };
 
 
@@ -253,50 +276,65 @@ let collectionApi = {
             return -1; // album exists already
         }
     },
-    addToListeningList: (item) => {
-        try{
-
-            if(!validListeningListItem(item)){ return -2;}
-
-            let newEntry = {
-                type: ((item.title) ? 'album' : 'artist'),
-                key: item._id
-            };
-            
-            if (!_.find(listeningList, newEntry)){
-                listeningList.push(newEntry);
-                writeListeningList();
-                return 1;
-            }
-            else{ return -3;}
+    getPlaylists : () =>{
+        const returnVal =  _.orderBy(playlists, ["name"], ["asc"]);
+        return returnVal.map(p=>{return {name : p.name};});
+    },
+    getPlaylist : (name) => {
+        let returnVal = playlists.find( pl=> pl.name == name );
+        let stats = {};
+        if( returnVal != null) {
+            stats = collectionApi.songlistStats(returnVal.entries);
         }
-        catch(e){ 
+        return Object.assign({}, returnVal, stats);
+    },
+    songlistStats : (playlistItems) => {
+        let songCount = 0;
+        let listSize  = 0;
+        let songs = collectionApi.reduceListItemsToSongs(playlistItems);
+        songCount = songs.length;
+        listSize = songs.reduce((a,c)=> a + c.sizeInMb, 0);
+        return {songCount, listSize};
+    },
+    updatePlaylist : (playlist) => {
+        try{
+            if(!validPlayList(playlist)){ return -2;} else{
+            let upsert = playlists.find( pl=> pl.name == playlist.name );
+            if(upsert != null){
+                _.remove(playlists, upsert);
+            }
+            playlists.push(playlist);
+            writePlaylists();
+            return 1;
+        }
+        }
+        catch(e){
             return -1;
         }
-        
     },
-    removeFromListeningList: (type, id) => {
-        if( isNaN(parseInt(id))){ return -2;}
-        try{
-        _.remove(listeningList, {
-            type: type,
-            key: parseInt(id)
+    playlistToSongs : (name) => {
+        const list = playlists.find( pl=> pl.name == name );
+        return collectionApi.reduceListItemsToSongs(list.entries);
+    },
+    reduceListItemsToSongs : (playlistItems) => {
+        let returnVal = [];
+        let songlist = songList();
+        playlistItems.forEach(e =>{
+            let ekey = parseInt(e.key);
+            switch(e.type){
+                case "song":
+                    returnVal = returnVal.concat( _.filter(songlist, e => {return e.songPk == ekey;})  );
+                    break;
+                case "album":
+                    returnVal = returnVal.concat( _.filter(songlist, e => {return e.albKey == ekey;}) );
+                    break;
+                case "artist":
+                    returnVal = returnVal.concat( _.filter(songlist, e => {return e.artistKey == ekey;})  );
+                    break;
+            }
         });
-        return 1;
-    }
-    catch(e){ 
-        return -1;
-    }
-
-    },
-    getListeningList: () => {
-        let returnValue = [];
-        listeningList.forEach((item) =>{
-            returnValue.push( (item.type=='album') ? collectionApi.albumById(item.key) : collectionApi.artistById(item.key));
-        });
-        return returnValue;
-        
-    },
+        return returnVal;
+    },   
 
     /* other methods */
     albumCount : albums.length,
@@ -313,8 +351,8 @@ let collectionApi = {
     randomAlbum: () => {
         return albums[_.random(0,albums.length-1)];
     },
-    randomSong: () => {
-        const songL = songList();
+    randomSong: (playlist) => {
+        const songL = (playlist===undefined) ? songList() : collectionApi.playlistToSongs(playlist);
         return songL[_.random(0,songL.length-1)];
     },
     artistAggByQuery: (col) => {
@@ -344,7 +382,6 @@ let collectionApi = {
         });
     }
 };
-
 
 export default collectionApi;
 

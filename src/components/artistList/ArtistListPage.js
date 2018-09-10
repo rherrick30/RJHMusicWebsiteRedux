@@ -5,6 +5,7 @@ import * as artistActions from '../../actions/artistActions';
 import {browserHistory} from 'react-router';
 import ArtistList from './ArtistList';
 import ArtistListArtistDetail from './ArtistListArtistDetail';
+import apiHelper from '../../api/apiHelper';
 
 class ArtistListPage extends React.Component {
     constructor(props, context){
@@ -15,6 +16,8 @@ class ArtistListPage extends React.Component {
         };
         this.selectArtist = this.selectArtist.bind(this);
         this.filterTextChange = this.filterTextChange.bind(this);
+        this.filterArtistList = this.filterArtistList.bind(this);
+        this.randomArtist = this.randomArtist.bind(this);
     }
     selectArtist(artist){
         const selectedArtist = Object.assign({}, artist);
@@ -22,8 +25,16 @@ class ArtistListPage extends React.Component {
            selectedArtist: selectedArtist
         }));
     }
+    randomArtist(){
+        apiHelper.randomAlbum().then( value=>{
+            this.filterArtistList(value[0].artist.toLowerCase());
+        });
+    }
     filterTextChange(sender){
         const filterText = sender.target.value.toLowerCase();
+        this.filterArtistList(filterText);
+    }
+    filterArtistList(filterText){
         if(filterText.length>0){
             this.setState(prevState=>({
                 filteredArtists: Object.assign([], this.props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == filterText))
@@ -39,6 +50,7 @@ class ArtistListPage extends React.Component {
             <div className="artistListMainView">
                 <h1>Artist List</h1>
                 <label>Search for:</label><input type="text" onChange={this.filterTextChange}></input>
+                <input type="button" onClick={this.randomArtist} value="random" />
                 <br />
                 <ArtistList artists={this.state.filteredArtists} selectFunction={this.selectArtist} />
                 <ArtistListArtistDetail artist={this.state.selectedArtist}/>

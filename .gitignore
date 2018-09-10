@@ -37,3 +37,6 @@ dist
 
 # Data
 tools/data
+
+#environment files
+.env

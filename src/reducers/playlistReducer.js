@@ -19,7 +19,12 @@ const playlistReducer = (state = { playlist: initialState.playlist}, action) => 
         case types.SHUFFLE_PLAYLIST_SUCCESS:
             return action.playlist;   
         case types.SWAP_PLAYLIST_SUCCESS:
-            return action.playlist;     
+            return action.playlist;     /*
+        case types.QUERY_TAG_SUCCESS:
+            return state.tag;    
+        case types.SET_TAG_SUCCESS:
+            return action.tag;            
+            */    
         default:    
             return state;
     }

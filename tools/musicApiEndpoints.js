@@ -165,49 +165,34 @@ switch(resultCode){
 }
 });
 
-
-app.get('/listeningList', (req, res)=>{
-  res.send(collectionApi.getListeningList());
+app.get('/playlists', (req, res)=>{
+  res.send(collectionApi.getPlaylists());
 });
 
-app.post('/listeningList', requestBodyParser, (req, res)=>{
-  let resultCode = collectionApi.addToListeningList(req.body);
+app.get('/playlist/:name', (req, res)=>{
+  res.send(collectionApi.getPlaylist(req.params.name));
+});
+
+app.post('/playlist', requestBodyParser, (req, res)=>{
+  let resultCode = collectionApi.updatePlaylist(req.body);
   switch(resultCode){
     case -1:
       res.status(500).send(`An internal error has occured.`);
       break;
-    case -2:
-      res.status(400).send(`ListeningList object was malformed or missing data`);
+    case -2:  
+      res.status(400).send(`playlist object was malformed or missing data`);
       break;
-    case -3:
-    res.status(304).send(`ListeningList object already exists`);
-    break;
   case 1:
       res.send(`Updated`);
       break;
     default:
       res.status(500).send('An internal error has occured.');
   }
-
 });
 
-app.delete('/listeningList/:type/:id',requestBodyParser,  (req, res)=>{
-  let resultCode = collectionApi.removeFromListeningList(req.params.type,req.params.id);
-  switch(resultCode){
-    case -1:
-      res.status(500).send(`An internal error has occured.`);
-      break;
-    case -2:
-      res.status(400).send(`ListeningList object was malformed or missing data ${artistValidationMessage(req.body)}`);
-      break;
-    case 1:
-      res.send(`Updated`);
-      break;
-    default:
-      res.status(500).send('An internal error has occured.');
-  }
-  });
-
+app.get('/playlistsongs/:name', (req, res)=>{
+  res.send(collectionApi.playlistToSongs(req.params.name));
+});
 
 /*  NON RESTful ENDPOINTS (For enhanced querying) */
 
@@ -238,6 +223,11 @@ app.get('/randomArtist', (req, res)=>{
 app.get('/randomSong', (req, res) => {
   res.send([collectionApi.randomSong()]);
 });
+
+app.get('/randomSong/:playlist', (req, res) => {
+  res.send([collectionApi.randomSong(req.params.playlist)]);
+});
+
 
 app.post('/albumAggQuery',requestBodyParser, (req, res)=>{
 
@@ -277,8 +267,6 @@ app.get('/song/:id', (req, res)=>{
   {
     res.status(500).end(`Could not retreve song with key ${req.params.id}`);
   }
-
-
 
   const path = process.env.MUSIC_HOME_FOLDER + song[0].fullpath.replace(/\\/g,process.env.FOLDER_DIR_SEPARATOR);
   const stat = fs.statSync(path);

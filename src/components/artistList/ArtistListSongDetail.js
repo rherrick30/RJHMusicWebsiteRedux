@@ -13,9 +13,9 @@ class ArtistListSongDetail extends React.Component {
         this.props.addSongsEndFunction([this.props.song]);
     }
     render(){
+        /*<div className="tooltip"><span className="tooltiptext">Add to top of playlist</span><a onClick={this._onClickTop} href="#"><i className="fas fa-arrow-alt-circle-up"></i></a></div> */
     return(<li className="albumListSongTitle">
-                <div className="tooltip"><span className="tooltiptext">Add to top of playlist</span><a onClick={this._onClickTop} href="#"><i className="fas fa-arrow-alt-circle-up"></i></a></div>
-                <div className="tooltip"><span className="tooltiptext">Add to end of playlist</span><a onClick={this._onClickEnd} href="#"><i className="fas fa-arrow-alt-circle-down"></i></a></div>
+                <div className="tooltip"><span className="tooltiptext">Add to end of playlist</span><a onClick={this._onClickEnd} href="#"><i className="fas fa-plus-circle"></i></a></div>
                 {'   ' + this.props.song.songName}</li>);
     }
 }

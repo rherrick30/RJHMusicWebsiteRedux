@@ -13,6 +13,8 @@ const Header = () => {
             <Link to="/artistList" activeClassName="active">Artist List</Link>
             {" | "}
             <Link to="/songList" activeClassName="active">Song Search</Link>
+            {" | "}
+            <Link to="/managePlaylists" activeClassName="active">Manage Playlists</Link>
         </nav>
         <Player playlist={[]} songhist={[]} />
         </div>
