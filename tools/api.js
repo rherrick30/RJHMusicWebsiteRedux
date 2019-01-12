@@ -335,6 +335,26 @@ let collectionApi = {
         });
         return returnVal;
     },   
+    writePlaylistSongs : (playlist) => {
+        try{
+            if(!validPlayList(playlist)){ return -2;} else{
+            const selectedSonglist =  collectionApi.reduceListItemsToSongs(playlist.entries);
+            let returnVal = "SET SOURCE=\r\nSET DEST=\r\n";
+            for(let i=0;i<selectedSonglist.length;i++){
+                const selectedSong = collectionApi.songById(selectedSonglist[i].songPk)
+                //console.log(`${JSON.stringify(selectedSong)}`)
+                if(selectedSong.length>0){
+                    const path = selectedSong[0].fullpath
+                    returnVal = returnVal + `mkdir "%DEST%${path.substring(0,path.lastIndexOf('\\'))}"\r\ncopy "%SOURCE%${path}" "%DEST%${path}"\r\n`;
+                }
+            }  
+            return returnVal;
+        }
+        }
+        catch(e){
+            return -1;
+        }    
+    },
 
     /* other methods */
     albumCount : albums.length,

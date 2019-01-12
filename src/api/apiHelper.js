@@ -105,6 +105,9 @@ const apiHelper = {
     },
     playlistsongs(item){
         return getFunction(baseUrl + 'playlistsongs/' + item);
+    },
+    playlistCopyFile(playlist){
+        return postFunction(baseUrl + 'writePlaylist', playlist);
     }
 
 

@@ -47,7 +47,7 @@ class Player extends React.Component {
         }));
     }
     selectPlaylist(event){
-        let newTag = event.target.value;
+        let newTag = (event.target.value == "(None)") ? "" : event.target.value;
         this.props.playlistActions.setTag(newTag);
         this.setState(prevState => ({
             selectedPlaylist: newTag

@@ -37,6 +37,7 @@ class ManagePlaylistsPage extends React.Component{
         this.setSelectedPlaylist = this.setSelectedPlaylist.bind(this);
         this.calculateStatsLocal = this.calculateStatsLocal.bind(this);
         this.getReferencedItem = this.getReferencedItem.bind(this);
+        this.createCopyFile = this.createCopyFile.bind(this);
         apiHelper.getPlayLists().then(
             result => { this.setPlaylists(result); },
             err => {}
@@ -129,6 +130,16 @@ class ManagePlaylistsPage extends React.Component{
         );
         
     }
+    createCopyFile(){
+        apiHelper.playlistCopyFile(this.state.selectedPlaylist).then(
+            (result) => {
+                console.log(result); 
+                var uriContent = "data:application/octet-stream," + encodeURIComponent(result);
+                window.open(uriContent);
+            },
+            (err) => {console.log(`ERROR->${err}`)}
+        )
+    }
     render(){
         return (
             <div className="artistListMainView">
@@ -145,7 +156,8 @@ class ManagePlaylistsPage extends React.Component{
                         })}
                     </select>
                     <input type="text" className={(this.state.mode == "add") ? "visible": "invisible"} onChange={this.playlistNameChange} />
-                    <button onClick={this.savePlaylist}>Save</button>
+                    <button type="button" onClick={this.savePlaylist}>Save</button>
+                    <a type="button" onClick={this.createCopyFile} download="copyFile.txt">Create Copy File</a>
                 </form>
                 <br />
                 <PlaylistItemSelector selectFunction={this.addToPlaylist} artists={this.props.artists}/>

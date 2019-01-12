@@ -194,6 +194,15 @@ app.get('/playlistsongs/:name', (req, res)=>{
   res.send(collectionApi.playlistToSongs(req.params.name));
 });
 
+app.post('/writePlaylist', requestBodyParser, (req,res) =>{
+  let result = collectionApi.writePlaylistSongs(req.body);
+  if(result === -1){
+    res.status(500).send(`An internal error has occured.`);
+  } else{
+    res.send(result);
+  }
+});
+
 /*  NON RESTful ENDPOINTS (For enhanced querying) */
 
 app.get('/albumCount', (req, res)=>{
