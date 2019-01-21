@@ -133,12 +133,13 @@ class ManagePlaylistsPage extends React.Component{
     createCopyFile(){
         apiHelper.playlistCopyFile(this.state.selectedPlaylist).then(
             (result) => {
-                console.log(result); 
-                var uriContent = "data:application/octet-stream," + encodeURIComponent(result);
+                let uriContent = "data:application/octet-stream," + encodeURIComponent(result);
                 window.open(uriContent);
             },
-            (err) => {console.log(`ERROR->${err}`)}
-        )
+            (err) => {
+                //console.log(`ERROR->${err}`)
+            }
+        );
     }
     render(){
         return (

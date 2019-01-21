@@ -166,6 +166,15 @@ TO DO:
 
 */
 
+let currentSongQueues = [];
+
+let findSongQueues = (ip) => {
+    return currentSongQueues.find((q)=>{
+        return q.ipAddress.localeCompare(ip) == 0;
+    });
+};
+
+
 let collectionApi = {
 
     /* RESTful methods */
@@ -316,6 +325,34 @@ let collectionApi = {
         const list = playlists.find( pl=> pl.name == name );
         return collectionApi.reduceListItemsToSongs(list.entries);
     },
+    serveSongFromPlaylist : (name, ip) =>{
+        //see if there is a queue for this ip already
+        let newPlaylist = [];
+        let songq = findSongQueues(ip);
+        //console.log(`...songq after find is ${JSON.stringify(songq)}`);
+        if(songq==undefined || name!=songq.playlist){
+            newPlaylist = collectionApi.playlistToSongs(name);
+        } else{
+            newPlaylist = songq.list;
+            if (newPlaylist.length == 0){
+                newPlaylist = collectionApi.playlistToSongs(name);
+            }
+        }
+        //console.log(`...newplaylist is now ${JSON.stringify(newPlaylist.length)} items long`);
+        currentSongQueues = currentSongQueues.filter(q => q!=songq);
+        //console.log(`...after removing songq from master list, its ${JSON.stringify(currentSongQueues.length)} long`);
+        let song = newPlaylist[_.random(0,newPlaylist.length-1)];
+        //console.log(`...song is ${JSON.stringify(song)}`);
+        newPlaylist= newPlaylist.filter(s => s!=song);
+        //console.log(`...after removing the song, the playlist is ${JSON.stringify(newPlaylist.length)} long`);
+        currentSongQueues.push({
+            ipAddress: ip,
+            playlist: name,
+            list: newPlaylist
+        });
+        //console.log(`...and finally currentSongQueue is now ${JSON.stringify(currentSongQueues)}`);
+        return [song];
+    },
     reduceListItemsToSongs : (playlistItems) => {
         let returnVal = [];
         let songlist = songList();
@@ -341,10 +378,10 @@ let collectionApi = {
             const selectedSonglist =  collectionApi.reduceListItemsToSongs(playlist.entries);
             let returnVal = "SET SOURCE=\r\nSET DEST=\r\n";
             for(let i=0;i<selectedSonglist.length;i++){
-                const selectedSong = collectionApi.songById(selectedSonglist[i].songPk)
+                const selectedSong = collectionApi.songById(selectedSonglist[i].songPk);
                 //console.log(`${JSON.stringify(selectedSong)}`)
                 if(selectedSong.length>0){
-                    const path = selectedSong[0].fullpath
+                    const path = selectedSong[0].fullpath;
                     returnVal = returnVal + `mkdir "%DEST%${path.substring(0,path.lastIndexOf('\\'))}"\r\ncopy "%SOURCE%${path}" "%DEST%${path}"\r\n`;
                 }
             }  
@@ -371,8 +408,8 @@ let collectionApi = {
     randomAlbum: () => {
         return albums[_.random(0,albums.length-1)];
     },
-    randomSong: (playlist) => {
-        const songL = (playlist===undefined) ? songList() : collectionApi.playlistToSongs(playlist);
+    randomSong: (playlist, ip) => {
+        const songL = (playlist===undefined) ? songList() : collectionApi.serveSongFromPlaylist(playlist,ip);
         return songL[_.random(0,songL.length-1)];
     },
     artistAggByQuery: (col) => {
@@ -400,6 +437,9 @@ let collectionApi = {
         return _.filter(songs,(e) => {
             return e.songPk == id;
         });
+    },
+    currentSongQueues: () => {
+        return currentSongQueues;
     }
 };
 

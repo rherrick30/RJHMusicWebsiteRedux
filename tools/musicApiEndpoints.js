@@ -234,7 +234,7 @@ app.get('/randomSong', (req, res) => {
 });
 
 app.get('/randomSong/:playlist', (req, res) => {
-  res.send([collectionApi.randomSong(req.params.playlist)]);
+  res.send([collectionApi.randomSong(req.params.playlist, req.ip)]);
 });
 
 
@@ -309,5 +309,8 @@ app.get('/song/:id', (req, res)=>{
   }
 });
 
+app.get('/songQueue',(req,res)=>{
+  res.send(collectionApi.currentSongQueues());
+});
 
 export default app;
