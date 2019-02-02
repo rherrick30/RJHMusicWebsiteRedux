@@ -84,15 +84,16 @@ class ManagePlaylistsPage extends React.Component{
     }
     getReferencedItem(slItem){
         let retval={};
+        const relevantKey = parseInt(slItem.key);
         switch(slItem.type){
             case "artist":
-                retval = _.find(this.props.artists, {'_id': slItem.key });
+                retval = _.find(this.props.artists, {'_id': relevantKey });
                 break;
             case "album":
-                retval = _.find(this.state.allAlbums, {'_id': slItem.key });
+                retval = _.find(this.state.allAlbums, {'_id': relevantKey });
                 break;
             case "song":
-                retval = _.find(this.state.allSongs, {'_id': slItem.key });
+                retval = _.find(this.state.allSongs, {'_id': relevantKey });
                 break;
         }
         return retval;
