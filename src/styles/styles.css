@@ -127,13 +127,14 @@ input[type=range] {
 /**/
 
   /* About (Player Status) styles */
+  /*
 .about,  {
     height: 1024px;
     width: 1024px;
     display: block;
     position: relative;
 }
-  
+ */ 
 .about::after{
     content: "";
     background-image: url('./Tuscan_Landscape_7.jpg');
@@ -266,4 +267,30 @@ a, icon{
 
 .managePlaylistsArtistSelect{
   width: 300px;
+}
+
+/* Home page styles */
+
+.homePage{
+  color: black;
+  background-color: whitesmoke;
+  width: 100%;
+}
+
+div.statsPanel{
+  width: 80%;
+  height: 770px;
+  text-align: left;
+  color: black;
+  background-color: whitesmoke;
+  float: left;
+}
+
+span.homeAlbumArtist{
+  color:navy;
+}
+
+span.homeAlbumTitle{
+  color: brown;
+  font-weight: bold;
 }
