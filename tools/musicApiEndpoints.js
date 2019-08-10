@@ -267,7 +267,10 @@ app.get('/artistSearch/:searchPattern', (req,res)=>{
 });
 
 app.get('/song/:id', (req, res)=>{
-  if (process.env.MUSIC_HOME_FOLDER === undefined){
+
+  const HOME_FOLDER = process.env.COMPOSED_MUSIC_HOME || process.env.MUSIC_HOME_FOLDER
+
+  if (HOME_FOLDER === undefined){
     res.status(501).end("Sorry, Music streaming is not available on this instance");
     return;
   }
@@ -277,7 +280,7 @@ app.get('/song/:id', (req, res)=>{
     res.status(500).end(`Could not retreve song with key ${req.params.id}`);
   }
 
-  const path = process.env.MUSIC_HOME_FOLDER + song[0].fullpath.replace(/\\/g,process.env.FOLDER_DIR_SEPARATOR);
+  const path = HOME_FOLDER + song[0].fullpath.replace(/\\/g,process.env.FOLDER_DIR_SEPARATOR);
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;

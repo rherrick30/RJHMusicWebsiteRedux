@@ -1,11 +1,72 @@
 import _ from 'lodash';
 import fs from 'fs';
+import path from 'path';
 require('dotenv').config();
 
 let albums = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Albums.json"));
 let artists = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Artists.json"));
 let songs = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "Songs.json"));
 let playlists = JSON.parse(fs.readFileSync(process.env.MUSIC_CONFIGURATION_FILES + "playlists.json"));
+
+if(process.env.COMPOSED_MUSIC_HOME){
+    console.log(`reading additional music files`);
+    const dirPath = path.join(process.env.COMPOSED_MUSIC_HOME);
+    fs.readdir(dirPath, (err, files) => {
+        if(err){
+          console.log(`error reading ${dirPath}::${JSON.stringify(err)}`);
+          return;
+        }
+        let titleList = files.map(file=>{
+          if(file.endsWith(".mp3")){
+            return file;
+          }
+        }).filter(m=> m != null);
+      
+        songs = titleList.map((s,ndx)=>{
+            return {
+                songPk:ndx, 
+                songName:s, 
+                fullpath:`/${s}`,  
+                sizeInMb:0.0, 
+                added:"1990-01-01 10:00:00.00", 
+                updated:"1990-01-01 10:00:00.00"
+            };
+        });
+//console.log(`songs->${JSON.stringify(songs)}`)      
+        albums = [{
+            _id:1, 
+            title:"Robs Composed Music", 
+            releaseYear:1983, 
+            aquisitionYear:1983, 
+            downloaded:"false", 
+            artistfk:1, 
+            artist:"Robert Herrick", 
+            nationality:"NH/FL", 
+            dateOfInterest:1971, 
+            added:"1971-05-19 10:00:00.000", 
+            updated:"2019-08-10 10:00:00.000",  
+            songs:songs, 
+            songcount:songs.length, 
+            sizeInMb:0}];
+//console.log(`albums->${JSON.stringify(albums)}`)      
+
+        artists =  [{
+            _id:1 , 
+            artist:"Robert Herrick", 
+            nationality:"NH/FL", 
+            dateOfInterest:1971, 
+            added:"1971-05-19 10:00:00.000", 
+            updated:"2019-08-10 10:00:00.000",  
+            albums: albums, 
+            albumCount:albums.length, 
+            songCount:songs.length, 
+            sizeInMb:162.48384        
+            }];
+      });
+//console.log(`artists->${JSON.stringify(artists)}`)      
+
+}
+
 
 let fleshedOutSongs = _.flatten(albums.map( a=>{
     return a.songs.map(s=>{
@@ -57,8 +118,10 @@ let writePlaylists = () => {
         }] }\n`;
     });
 
-    fs.writeFile(process.env.MUSIC_CONFIGURATION_FILES + "playlists.json", '[\n' + list + ']', (err)=>{
-});};
+    if(!process.env.COMPOSED_MUSIC_HOME){
+        fs.writeFile(process.env.MUSIC_CONFIGURATION_FILES + "playlists.json", '[\n' + list + ']', (err)=>{ });    
+    }
+};
 
 let getNextId = (collection) => {
     let returnValue = 1;
