@@ -1,9 +1,12 @@
+# Notes
+To enable streaming my written music, enable COMPOSED_MUSIC_HOME in the .env file.
+Look at api.js off the root to see how that's used
+
 # To Do List
 
 + Move songs up/down in list
 
 + Persist playlist between visits
-+ Name and save a playlist
 + Tagging Artists
 + Album list (like artist list but w/ different orientation)
 + Make the layout reactive (long term thing)

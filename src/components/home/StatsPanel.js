@@ -11,7 +11,7 @@ const StatsPanel = (props) => {
     const albumFormat = (a) => {
         let result = [];
         result.push(<div><span className="homeAlbumTitle">{a.title}</span> by <span className="homeAlbumArtist">{a.artist}</span></div>);
-        return result;
+        return result[0];
     };
 
     const albumList = (artists.constructor === Array) ? artists.flatMap(a => a.albums.map(alb => {alb.artist = a.artist; return alb;})) : [];
@@ -21,7 +21,7 @@ const StatsPanel = (props) => {
     const NUMBER_NEWEST = 20;
     const NUMBER_RAND = 10;
     if(albumList.length>0){
-        topXNewest = albumList.sort((a,b) => new Date(b.added) - new Date(a.added)).slice(0,NUMBER_NEWEST);
+        topXNewest = albumList.sort((a,b) => (b.added>a.added) ? 1 : (b.added<a.added) ? -1 : 0 ).slice(0,NUMBER_NEWEST);
         for(let i=0; i<NUMBER_RAND;i++){
             topXRandom.push(albumList[_.random(0,albumList.length-1)]);
         }
@@ -35,19 +35,19 @@ const StatsPanel = (props) => {
         <div className="statsItem">{`${artistCount.toLocaleString()} artists, ${albumCount.toLocaleString()} albums, ${songCount.toLocaleString()} songs, ${collectionSize.toLocaleString()} Gb total size`}</div>
         <div className="StatsItem">{`Here are ${NUMBER_RAND} albums to chose from :`}
         <ul>{topXRandom.map( a=>{
-            return(<li key={a.albumpk}>{albumFormat(a)}</li>);
+            return(<li key={"rand-"+a.albumpk}>{albumFormat(a)}</li>);
         })}</ul>
         </div>
         <div className="StatsItem">{`Here are the last ${NUMBER_NEWEST} albums:`}
         <ul>{topXNewest.map( a=>{
-            return(<li key={a.albumpk}>{albumFormat(a)}</li>);
+            return(<li key={"newest-"+a.albumpk}>{albumFormat(a)}</li>);
         })}</ul>
         </div>
     </div>);
 };
 
 StatsPanel.propTypes = {
-    artists: PropTypes.array.isRequired
+    artists: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 
 export default StatsPanel;

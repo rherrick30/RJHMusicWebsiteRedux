@@ -21,7 +21,7 @@ class HomePage extends React.Component{
 }
 
 HomePage.propTypes = {
-    artists: PropTypes.array.isRequired,
+    artists: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     actions: PropTypes.object.isRequired
 };
 
