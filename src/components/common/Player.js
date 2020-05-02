@@ -48,10 +48,19 @@ class Player extends React.Component {
     }
     selectPlaylist(event){
         let newTag = (event.target.value == "(None)") ? "" : event.target.value;
-        this.props.playlistActions.setTag(newTag);
-        this.setState(prevState => ({
-            selectedPlaylist: newTag
-        }));
+        console.log(`new tag is ${newTag}`)                
+        apiHelper.getPlayLists().then(
+            result => { 
+                this.setPlaylists(result);
+                this.props.playlistActions.setTag(newTag);
+                this.setState(prevState => ({
+                    selectedPlaylist: newTag
+                }));
+        
+            },
+            err => {}
+        );
+
     }
     setSong(data){
         if( data.length > 0)

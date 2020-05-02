@@ -31,7 +31,7 @@ class ArtistListArtistDetail extends React.Component {
     }
     else{
         return(<div className="artistListArtistDetail">
-                    <h3>{item.artist}</h3>
+                    <h3>{item.artist}</h3> {item.songCount} song{(item.songCount>1)?'s' : '' } on {item.albumCount} album{(item.albumCount>1)?'s' : ''}
                     <p>
                         from {item.nationality}.  I've been a fan since {item.dateOfInterest}  <a href="#" onClick={this.addAllSongsForArtist}><i className="fas fa-plus-circle"></i></a>(add all songs)
                     </p>

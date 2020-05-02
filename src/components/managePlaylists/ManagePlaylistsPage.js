@@ -159,7 +159,8 @@ class ManagePlaylistsPage extends React.Component{
                     </select>
                     <input type="text" className={(this.state.mode == "add") ? "visible": "invisible"} onChange={this.playlistNameChange} />
                     <button type="button" onClick={this.savePlaylist}>Save</button>
-                    <a type="button" onClick={this.createCopyFile} download="copyFile.txt">Create Copy File</a>
+                    <a type="button" onClick={this.createCopyFile} download="copyFile.txt">|Create Copy File</a>
+
                 </form>
                 <br />
                 <PlaylistItemSelector selectFunction={this.addToPlaylist} artists={this.props.artists}/>

@@ -277,7 +277,9 @@ app.get('/song/:id', (req, res)=>{
   const song = collectionApi.songById(req.params.id);
   if(song.length!=1)
   {
+    console.log(`there are ${song.length} songs found: ${JSON.stringify(song)}`)
     res.status(500).end(`Could not retreve song with key ${req.params.id}`);
+    res.end()
   }
 
   const path = HOME_FOLDER + song[0].fullpath.replace(/\\/g,process.env.FOLDER_DIR_SEPARATOR);
