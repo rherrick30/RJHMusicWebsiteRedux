@@ -20,7 +20,7 @@
     "axios": "^0.17.1",
     "babel-polyfill": "6.8.0",
     "body-parser": "^1.18.2",
-    "bootstrap": "3.3.6",
+    "bootstrap": "3.4.1",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "jquery": "3.5.0",
