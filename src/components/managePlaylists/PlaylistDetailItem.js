@@ -1,9 +1,10 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 const PlaylistDetailItem = (props) => {
-    const _onClick = (event) => {
-        props.removeFunction(event.target.value);
+    const _onClick = () => {
+        props.removeFunction(props.item);
     };
     const item = props.item;
     return (

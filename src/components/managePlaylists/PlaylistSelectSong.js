@@ -1,7 +1,9 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+
 import PlaylistSelectionBase from './PlaylistSelectionBase';
 import { isArray } from 'util';
 import PlaylistSourceItem from './PlaylistSourceItem';
+import apiHelper from '../../api/apiHelper'
 
 class PlaySelectSong extends PlaylistSelectionBase {
     constructor(props){
@@ -22,8 +24,10 @@ class PlaySelectSong extends PlaylistSelectionBase {
     selectSong(song){
         const newItem = {
             type : "song",
-            key : song.songPk,
-            title : `${song.songName} (by ${this.state.selectedArtist.artist} from ${this.state.selectedAlbum.title})`
+            key : song._id,
+            title : `${song.songName} (by ${this.state.selectedArtist.artist} from ${this.state.selectedAlbum.title})`,
+            songCount: 1,
+            sizeInMb: song.sizeInMb,
         };
         this.props.selectFunction(newItem);
     }
@@ -31,21 +35,18 @@ class PlaySelectSong extends PlaylistSelectionBase {
         const selectedId = event.target.value;
         let newAlbum = {};
         this.state.selectedArtist.albums.forEach(a=>{
-            if(a.albumpk == selectedId){ newAlbum = a;}
+            if(a._id == selectedId){ newAlbum = a;}
         });
-        this.setState(prevState=>({
+        this.setState(()=>({
             selectedAlbum : newAlbum
         }));
     }
-    selectArtist(event){
+    selectArtist = async (event) => {
         const selectedId = event.target.value;
-        let newArtist = {};
-        this.state.filteredArtists.forEach(a => {
-            if(a._id == selectedId){ newArtist = a;}
-        });
-        this.setState(prevState => ({
-            selectedArtist: newArtist
-        }));
+        if( selectedId!=-1){
+            const newArtist = await apiHelper.artist(selectedId)
+            this.setState(() => ({ selectedArtist: newArtist}))
+        }
     }
     render(){
     const localArtists = (isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];
@@ -61,7 +62,7 @@ class PlaySelectSong extends PlaylistSelectionBase {
         <label>albums:</label><select className="managePlaylistsArtistSelect"  onChange={this.selectAlbum}>
         <option value="-1">(Select Album)</option>
         {this.state.selectedArtist.albums.map(a=>{
-            return(<option key={"alb:" + a.title} value={a.albumpk}>{a.title}</option>);
+            return(<option key={"alb:" + a.title} value={a._id}>{a.title}</option>);
         })}
         </select><p />
         {this.state.selectedAlbum.songs.map(s=>{

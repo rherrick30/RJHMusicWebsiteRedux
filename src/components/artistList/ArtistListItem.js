@@ -1,22 +1,19 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
-class ArtistListItem extends React.Component {
-    constructor(props){
-        super(props);
-        this._onClick = this._onClick.bind(this);
+const ArtistListItem = (props) => {
+    const _onClick = () => {
+        props.selectFunction(props.artist);
     }
-    _onClick(){
-        this.props.selectFunction(this.props.artist);
-    }
-    render(){ return(
-        <div><a className="artistBrowserListEntry" onClick={this._onClick} href="#">{this.props.artist.artist}</a><br/></div>
-    );}
+    return(
+        <div><a className="artistBrowserListEntry" onClick={_onClick} href="#">{props.artist.artist}</a><br/></div>
+    )
 }
 
 ArtistListItem.propTypes = {
     artist: PropTypes.object.isRequired,
-    selectFunction: React.PropTypes.func
+    selectFunction: PropTypes.func
 };
 
 

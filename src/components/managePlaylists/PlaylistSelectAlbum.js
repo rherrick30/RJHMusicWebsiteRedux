@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import PlaylistSelectionBase from './PlaylistSelectionBase';
 import { isArray } from 'util';
 import PlaylistSourceItem from './PlaylistSourceItem';
+import apiHelper from '../../api/apiHelper'
 
 class PlaySelectAlbum extends PlaylistSelectionBase {
     constructor(props){
@@ -18,22 +19,19 @@ class PlaySelectAlbum extends PlaylistSelectionBase {
     selectAlbum(album){
         const newItem = {
             type : "album",
-            key : album.albumpk,
-            title : `${album.title} (by ${this.state.selectedArtist.artist})`
+            key : album._id,
+            title : `${album.title} (by ${this.state.selectedArtist.artist})`,
+            songCount: album.songCount,
+            sizeInMb: album.sizeInMb,
         };
         this.props.selectFunction(newItem);
     }
-    selectArtist(event){
+    selectArtist = async (event) => {
         const selectedId = event.target.value;
         if( selectedId!=-1){
-        let newArtist = {};
-        this.state.filteredArtists.forEach(a => {
-            if(a._id == selectedId){ newArtist = a;}
-        });
-        this.setState(prevState => ({
-            selectedArtist: newArtist
-        }));
-    }
+            const newArtist = await apiHelper.artist(selectedId)
+            this.setState(() => ({ selectedArtist: newArtist}))
+        }
     }
     render(){
     const localArtists = (isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];    

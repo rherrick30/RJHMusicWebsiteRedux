@@ -1,23 +1,17 @@
-import React, {PropTypes, Component } from 'react';
-import {Link} from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as artistActions from '../../actions/artistActions';
 import StatsPanel from './StatsPanel';
 
 
-class HomePage extends React.Component{
-    constructor(props, context){
-        super(props, context);
-    }
-
-    render(){
-        return(
-            <div className="jumbotron homePage">
-                <StatsPanel artists={this.props.artists} />                
-            </div>
-        );
-    }
+const HomePage = (props) => {
+    return(
+        <div className="jumbotron homePage">
+            <StatsPanel artists={props.artists} />                
+        </div>
+    );
 }
 
 HomePage.propTypes = {
@@ -25,7 +19,7 @@ HomePage.propTypes = {
     actions: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) =>{
+const mapStateToProps = (state) =>{
     return {
         artists: state.artists
     };

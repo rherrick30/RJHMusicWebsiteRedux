@@ -1,46 +1,43 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as playlistActions from '../../actions/playlistActions';
 import apiHelper from '../../api/apiHelper';
 import PlaylistDetailItem from './PlaylistDetailItem';
 
-class PlaylistDetail extends React.Component {
-    constructor(props, context){
-        super(props, context);
-        this.addAllSongsInPlaylist = this.addAllSongsInPlaylist.bind(this);
-    }
-    addAllSongsInPlaylist(){
+const PlaylistDetail = (props) => {
+
+    const addAllSongsInPlaylist = () => {
         let newSongs = [];
-        apiHelper.playlistsongs(this.props.selectedList.name).then((res)=>{
+        apiHelper.playlistsongs(props.selectedList._id).then((res)=>{
             newSongs = newSongs.concat(res);
-            this.props.playlistActions.clearPlaylist({});
-            this.props.playlistActions.pushPlaylist({
+            props.playlistActions.clearPlaylist({});
+            props.playlistActions.pushPlaylist({
                     songs: newSongs
                 });
             });
     }
 
-    render(){
-    const item = this.props.selectedList;
+    const item = props.selectedList;
     if(item.name === undefined) {
         return (<div className="artistListArtistDetail">Please select a playlist</div>); 
     }
     else{
         return(<div className="artistListArtistDetail">
                     <h3>
-                    <input type="button" className="playlistButton" onClick={this.addAllSongsInPlaylist} value="set playlist" />
+                    <input type="button" className="playlistButton" onClick={addAllSongsInPlaylist} value="set playlist" />
                     <span>   </span>
                     {item.name}
                     {(item.songCount) ? `  (${item.songCount} songs,` : ""}
                     {(item.listSize) ? (item.listSize>1000) ? `  ${Math.round(item.listSize/1000*100)/100} Gb)` : `  ${Math.round(item.listSize*100)/100} Mb)` : ""}
                     </h3>
                     {item.entries.map(a => {
-                    return (<PlaylistDetailItem key={a.key + ":" + a.type} item={a} removeFunction={this.props.removeFunction} />);
+                    return (<PlaylistDetailItem key={a.key + ":" + a.type} item={a} removeFunction={props.removeFunction} />);
                     })}
                 </div>);
     }
-    }
+    
 }
 
 PlaylistDetail.propTypes = {
@@ -50,7 +47,7 @@ PlaylistDetail.propTypes = {
 };
 
 
-const mapStateToProps = (state, ownProps) =>{
+const mapStateToProps = (state) =>{
     return {
         playlist: state.playlist
     };

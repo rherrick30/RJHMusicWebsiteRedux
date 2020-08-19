@@ -17,7 +17,7 @@ export function clearSonghistSuccess(songhist){
 }
 
 export function clearSonghist(){
-    return function(dispatch, getState){
+    return function(dispatch){
         dispatch(clearSonghistSuccess([]));
     };
 }
@@ -34,7 +34,7 @@ export function querySonghist(){
 }
 
 export function pushSonghist(song){
-    return function(dispatch, getState) {
+    return function(dispatch) {
         return PlaylistApi.enqueueSonghist(song).then(song => {
             dispatch(pushSonghistSuccess(song));
         }).catch(error =>{

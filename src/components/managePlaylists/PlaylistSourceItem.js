@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 class PlaylistSourceItem extends React.Component {
@@ -17,7 +18,7 @@ class PlaylistSourceItem extends React.Component {
 PlaylistSourceItem.propTypes = {
     oItem: PropTypes.object.isRequired,
     displayText: PropTypes.string.isRequired,
-    selectFunction: React.PropTypes.func
+    selectFunction: PropTypes.func
 };
 
 

@@ -1,19 +1,27 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import Header from './common/Header';
+import { Switch, Route } from 'react-router-dom';
+import HomePage from './home/HomePage';
+import PlayerStatusPage from './playerStatus/PlayerStatusPage';
+import ArtistListPage from './artistList/ArtistListPage';
+import AlbumListPage from './albumList/AlbumListPage'
+import SongListPage from './songList/SonglistPage';
+import ManagePlaylistsPage from './managePlaylists/ManagePlaylistsPage';
 
-class App extends React.Component {
-    render(){
+function App(){
         return(
             <div className="container-fluid">
                 <Header />
-                {this.props.children}
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/about" component={PlayerStatusPage} />
+                    <Route path="/artistList" component={ArtistListPage} />
+                    <Route path="/albumList" component={AlbumListPage} />
+                    <Route path="/songlist" component={SongListPage} />
+                    <Route path="/managePlaylists" component={ManagePlaylistsPage} />
+                </Switch>
             </div>
         );
-    }
 }
-
-App.propTypes = {
-    children: PropTypes.object.isRequired
-};
 
 export default App;

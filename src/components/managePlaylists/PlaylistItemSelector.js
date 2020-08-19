@@ -1,51 +1,40 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import PlaylistSelectAlbum from './PlaylistSelectAlbum';
 import PlaylistSelectArtist from './PlaylistSelectArtist';
 import PlaylistSelectSong from './PlaylistSelectSong';
 
-class PlaylistItemSelector extends React.Component {
-    constructor(props, context){
-        super(props, context);
-        this.addToPlaylist = this.addToPlaylist.bind(this);
-        this._selectType = this._selectType.bind(this);
-        this.state = {
-            selectedType: "artist"
-        };
-    }
-    _selectType(event){
-        let selectedType = event.target.value;
-        this.setState(prevState=>({
-            selectedType: selectedType
-        }));
-    }
-    addToPlaylist(type, key, title){
+const PlaylistItemSelector = (props) => {
+    const [selectedType, setSelectedType] = useState("artist");
 
-    }
-    selectedPicker(){
-        switch(this.state.selectedType){
+    const selectedPicker = () => {
+        switch(selectedType){
             case "album":
-            return (<PlaylistSelectAlbum artists={this.props.artists} selectFunction={this.props.selectFunction} />);
+            return (<PlaylistSelectAlbum artists={props.artists} selectFunction={props.selectFunction} />);
             case "song":
-            return (<PlaylistSelectSong artists={this.props.artists} selectFunction={this.props.selectFunction} />);
+            return (<PlaylistSelectSong artists={props.artists} selectFunction={props.selectFunction} />);
             default:
-            return (<PlaylistSelectArtist artists={this.props.artists} selectFunction={this.props.selectFunction} />);
+            return (<PlaylistSelectArtist artists={props.artists} selectFunction={props.selectFunction} />);
         }
     }
-    render(){
+
+    const playlistItemLink = (_type) => { return (<a href="#" className="selectPlaylistItem" 
+            onClick={()=>{
+                setSelectedType(_type);
+            }}>{`${_type}`}</a>)  }
+
     return(<div className="artistBrowserList">
                 <div className="selectPlaylistItems">
-                    <a href="#" className="selectPlaylistItem" value="artist" onClick={this._selectType}>artists</a>
+                    {playlistItemLink('artist')}
                     {" | "}
-                    <a href="#" className="selectPlaylistItem" value="album" onClick={this._selectType}>album</a>
+                    {playlistItemLink('album')}
                     {" | "}
-                    <a href="#" className="selectPlaylistItem" value="song" onClick={this._selectType}>song</a>
+                    {playlistItemLink('song')}
                 </div>
                 <div className="selectionArea">
-                    {this.selectedPicker()}
+                    {selectedPicker()}
                 </div>
           </div>);
-    }
 }
 
 PlaylistItemSelector.propTypes = {

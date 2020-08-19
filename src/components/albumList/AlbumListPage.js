@@ -7,9 +7,9 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import * as playlistActions from '../../actions/playlistActions';
 
-const SongListPage = (props) => {
+const AlbumListPage = (props) => {
 
-    const [songResults, setSongResults] = useState([]);
+    const [albumResults, setAlbumResults] = useState([]);
     const [searchText, setSearchText] = useState("");
 
     const searchTextChange = (sender) => {
@@ -17,21 +17,23 @@ const SongListPage = (props) => {
         setSearchText(searchText);
     }
 
-    const addToPlaylist = (song) => {
-        let newSong = Object.assign({}, song);
+    const addToPlaylist = (album) => {
         props.playlistActions.pushPlaylist({
-            songs: [newSong]
+            songs: album.songs.map(s=>{
+                return Object.assign({}, s, {title: album.title, artist: album.artist})
+            })
         });
     }
-    const addPlaylistNext = (song) => {
-        let newSong = Object.assign({}, song);
+    const addPlaylistNext = (album) => {
         props.playlistActions.addPlaylistNext({
-            songs: [newSong]
+            songs: album.songs.map(s=>{
+                return Object.assign({}, s, {title: album.title, artist: album.artist})
+            })
         });
     }
     const executeSearch = () => {
-        apiHelper.songSearch(searchText).then( songs =>{
-            setSongResults(songs);
+        apiHelper.albumSearch(searchText).then( albums =>{
+            setAlbumResults(albums);
         });
     }
     const setTdProps = (state, rowInfo, column) => {
@@ -50,16 +52,16 @@ const SongListPage = (props) => {
     const renderDownArrow = () => <i className="fas fa-arrow-alt-circle-down"></i>
 
     const columns = [{
-        Header: 'Song Title',
-        accessor : 'songName'
-    },
-    {
         Header: 'Album Title',
         accessor : 'title'
     },
     {
         Header: 'Artist',
         accessor : 'artist'
+    },
+    {
+        Header: 'Song Count',
+        accessor: 'songCount'
     },
     {
         Header: 'Play Next',
@@ -75,23 +77,24 @@ const SongListPage = (props) => {
 
     return (
         <div className="songListMainView">
-            <h3>Song List</h3>
+            <h3>Album List</h3>
             <input type="text" onChange={searchTextChange}/>
             <input type="button" onClick={executeSearch} value="search"/>
             <ReactTable 
                 getTdProps={setTdProps}
-                data={songResults} 
+                data={albumResults} 
                 columns={columns}
+                hover={true}
              />
         </div>
     );
 }
 
-SongListPage.propTypes = {
+AlbumListPage.propTypes = {
     playlistActions : PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state ) =>{
     return {
         playlist: state.playlist
     };
@@ -103,4 +106,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumListPage);

@@ -1,62 +1,57 @@
-import React, {PropTypes} from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as artistActions from '../../actions/artistActions';
-import {browserHistory} from 'react-router';
 import ArtistList from './ArtistList';
 import ArtistListArtistDetail from './ArtistListArtistDetail';
 import apiHelper from '../../api/apiHelper';
 
-class ArtistListPage extends React.Component {
-    constructor(props, context){
-        super(props, context);
-        this.state = {
-            selectedArtist: {},
-            filteredArtists: this.props.artists
-        };
-        this.selectArtist = this.selectArtist.bind(this);
-        this.filterTextChange = this.filterTextChange.bind(this);
-        this.filterArtistList = this.filterArtistList.bind(this);
-        this.randomArtist = this.randomArtist.bind(this);
+const ArtistListPage = (props) => {
+
+    const [selectedArtist, setSelectedArtist] = useState({});
+    const [filteredArtists, setFilteredArtists] = useState(props.artists);
+    const [filterText, setFilterText] = useState("")
+
+    const filterTextChange = (sender) => {
+        const filterText = sender.target.value.toLowerCase();
+        setFilterText(filterText);
     }
-    selectArtist(artist){
-        const selectedArtist = Object.assign({}, artist);
-        this.setState(prevState => ({
-           selectedArtist: selectedArtist
-        }));
+
+    const selectArtist = async (sender) => {
+        const artist = await apiHelper.artist(sender._id)
+        setSelectedArtist(artist)
     }
-    randomArtist(){
-        apiHelper.randomAlbum().then( value=>{
-            this.filterArtistList(value[0].artist.toLowerCase());
+
+    useEffect(()=>{
+        if(filterText.length>0){
+            const searchKey = filterText.toLowerCase()
+            setFilteredArtists(Object.assign([], props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == searchKey)))
+        }else{
+            setFilteredArtists(Object.assign([], props.artists))
+        }
+    }, [filterText]) 
+    
+    const randomArtist = () =>{
+        apiHelper.randomArtist().then( value=>{
+            const artistName = (Array.isArray(value) && value.length>0)
+            ? value[0].artist
+            : "" 
+            setFilterText(artistName);
         });
     }
-    filterTextChange(sender){
-        const filterText = sender.target.value.toLowerCase();
-        this.filterArtistList(filterText);
-    }
-    filterArtistList(filterText){
-        if(filterText.length>0){
-            this.setState(prevState=>({
-                filteredArtists: Object.assign([], this.props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == filterText))
-            }));
-        }else{
-            this.setState(prevState=>({
-                filteredArtists: this.props.artists
-            }));
-        }
-    }
-    render(){
-        return (
-            <div className="artistListMainView">
-                <h1>Artist List</h1>
-                <label>Search for:</label><input type="text" onChange={this.filterTextChange}></input>
-                <input type="button" onClick={this.randomArtist} value="random" />
-                <br />
-                <ArtistList artists={this.state.filteredArtists} selectFunction={this.selectArtist} />
-                <ArtistListArtistDetail artist={this.state.selectedArtist}/>
-            </div>
-        );
-    }
+    
+    return (
+       <div className="artistListMainView">
+           <h1>Artist List</h1>
+           <label>Search for:</label><input type="text" value={filterText} onChange={filterTextChange}></input>
+           <input type="button" onClick={randomArtist} value="random" />
+           <br />
+           <ArtistList artists={(Array.isArray(filteredArtists)) ? filteredArtists : []} selectFunction={selectArtist} />
+           <ArtistListArtistDetail artist={selectedArtist}/>
+       </div>
+    );
+    
 }
 
 
@@ -65,7 +60,7 @@ ArtistListPage.propTypes = {
     actions: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) =>{
+const mapStateToProps = (state) =>{
     return {
         artists: state.artists
     };

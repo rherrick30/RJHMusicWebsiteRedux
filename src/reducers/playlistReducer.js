@@ -8,7 +8,7 @@ const playlistReducer = (state = { playlist: initialState.playlist}, action) => 
             return [...action.playlist.songs, ...state];
         case types.REMOVE_PLAYLIST_SUCCESS:    
             return [
-                ...state.filter(song => action.playlist.songPk != song.songPk)
+                ...state.filter(song => action.playlist._id != song._id)
             ];  
         case types.PUSH_PLAYLIST_SUCCESS:            
             return [...state, ...action.playlist.songs];
