@@ -137,7 +137,7 @@ input[type=range] {
  */ 
 .about::after{
     content: "";
-    background-image: url('./Tuscan_Landscape_7.jpg');
+    background-image: url('../pix/Wooden_footbridge_in_Shinjuku_Gyoen_National_Garden,_Tokyo,_Japan,_a_sunny_day_with_blue_sky.jpg');
     background-repeat: no-repeat;
     opacity: 0.5;
     top: 0;

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class PlaylistSelectionBase extends React.Component{
     constructor(props){
@@ -15,11 +16,11 @@ class PlaylistSelectionBase extends React.Component{
     }
     filterArtistList(filterText){
         if(filterText.length>0){
-            this.setState(prevState=>({
+            this.setState(()=>({
                 filteredArtists: Object.assign([], this.props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == filterText))
             }));
         }else{
-            this.setState(prevState=>({
+            this.setState(()=>({
                 filteredArtists: this.props.artists
             }));
         }

@@ -43,13 +43,13 @@ export function setTagSuccess(tag){
 
 /* simple actions without api interaction */
 export function clearPlaylist(){
-    return function(dispatch, getState){
+    return function(dispatch){
         dispatch(clearPlaylistSuccess([]));
     };
 }
 
 export function shufflePlaylist(playlist){
-    return function(dispatch, getstate){
+    return function(dispatch){
         let newPlaylist = Object.assign([], playlist);
         newPlaylist.forEach(e => { e.__randkey = Math.random(); });
         newPlaylist.sort((a,b)=>{ return (a.__randkey > b.__randkey) ? 1 : -1; });
@@ -83,7 +83,7 @@ export function queryPlaylist(){
 }
 
 export function pushPlaylist(song){
-    return function(dispatch, getState) {
+    return function(dispatch) {
         return PlaylistApi.enqueuePlaylist(song).then(song => {
             dispatch(pushPlaylistSuccess(song));
         }).catch(error =>{
@@ -94,7 +94,7 @@ export function pushPlaylist(song){
 
 
 export function addPlaylistNext(song){
-    return function(dispatch, getState) {
+    return function(dispatch)  {
         return PlaylistApi.addToFrontofPlaylist(song).then(song => {
             dispatch(addPlaylistNextSuccess(song));
         }).catch(error =>{
@@ -104,8 +104,8 @@ export function addPlaylistNext(song){
 }
 
 export function removePlaylist(song){
-    return function(dispatch, getState) {
-        return PlaylistApi.deleteFromPlaylist(song).then(playlist => {
+    return function(dispatch) {
+        return PlaylistApi.deleteFromPlaylist(song).then(() => {
             dispatch(removePlaylistSuccess(song));
         }).catch(error =>{
             throw(error);
@@ -114,7 +114,7 @@ export function removePlaylist(song){
 }
 
 export function swapTwoItems(playlist,from,to){
-    return function(dispatch, getstate){
+    return function(dispatch){
         let newPlaylist = Object.assign([], playlist);
        const temp = newPlaylist[from];
        delete newPlaylist[from];

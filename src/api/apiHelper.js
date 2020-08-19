@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-const baseUrl = '/api/';
+
+//const baseUrl = '/api/' 
+const baseUrl = process.env.API_URL;
 
 const axiosExecutor =  (axiosFunction, url, data) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             axiosFunction(url, data).then(resp => {
                 resolve(resp.data);
             });
@@ -32,7 +34,7 @@ const deleteFunction = (url, data) => {
 const apiHelper = {
  
     randomAlbum(){
-        return getFunction(baseUrl + 'randomAlbum');
+        return getFunction(baseUrl + 'randomAlbum?includeArtist=true&includeSongs=true');
     },
     randomArtist(){
         return getFunction(baseUrl + 'randomArtist');
@@ -47,10 +49,10 @@ const apiHelper = {
         return getFunction( baseUrl + 'artistSearch/'+ searchPattern);
     },
     albumSearch(searchPattern){
-        return getFunction( baseUrl + 'albumSearch/' + searchPattern);
+        return getFunction( baseUrl + 'albumquery/' + searchPattern);
     },
     songSearch(searchPattern){
-        return getFunction(baseUrl + 'songSearch/' + searchPattern);
+        return getFunction(baseUrl + 'songquery/' + searchPattern);
     },
     albums(){
         return getFunction(baseUrl + 'albums');
@@ -59,10 +61,10 @@ const apiHelper = {
         return getFunction(baseUrl + 'album/' + id);
     },
     artists(){
-        return getFunction(baseUrl + 'artists');
+        return getFunction(baseUrl + 'artists?includeAlbums=false&includeSongs=false');
     },
     artist(id){
-        return getFunction(baseUrl + 'artist/' + id);
+        return getFunction(baseUrl + 'artist/' + id + '?includeAlbums=true&includeSongs=true');
     },
     addArtist(artist){
         return postFunction(baseUrl + 'artist', artist );
@@ -108,6 +110,9 @@ const apiHelper = {
     },
     playlistCopyFile(playlist){
         return postFunction(baseUrl + 'writePlaylist', playlist);
+    },
+    getstats(){
+        return getFunction(baseUrl + 'collectionstats')
     }
 
 

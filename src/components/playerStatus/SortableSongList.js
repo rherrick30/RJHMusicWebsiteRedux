@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
-import {render} from 'react-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {SortableContainer} from 'react-sortable-hoc';
 import SortableSongTile from './SortableSongTile';
 
 const SortableSongList = SortableContainer((props) => {

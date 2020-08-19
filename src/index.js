@@ -1,10 +1,10 @@
-import 'babel-polyfill';
+//import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
-import {Router, browserHistory } from 'react-router';
-import routes from './routes';
+import {BrowserRouter as Router} from 'react-router-dom';
+import App from './components/App';
 import {loadArtists} from './actions/artistActions';
 import {queryPlaylist} from './actions/playlistActions';
 import './styles/styles.css';
@@ -15,10 +15,11 @@ const store = configureStore();
 store.dispatch(loadArtists());
 store.dispatch(queryPlaylist());
 store.dispatch(querySonghist());
-  
 render(
   <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
     document.getElementById('app')
 );

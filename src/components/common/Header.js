@@ -1,20 +1,22 @@
-import React, {PropTypes} from 'react';
-import {Link, IndexLink} from 'react-router';
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 import Player from './Player';
 
 const Header = () => {
     return(
         <div>
         <nav>
-            <IndexLink to="/" activeClassName="active">Home</IndexLink>
+            <NavLink to="/" activeClassName="active" exact>Home</NavLink>
             {" | "}
-            <Link to="/about" activeClassName="active">Player Status</Link>
+            <NavLink to="/about" activeClassName="active">Player Status</NavLink>
             {" | "}
-            <Link to="/artistList" activeClassName="active">Artist List</Link>
+            <NavLink to="/artistList" activeClassName="active">Artist List</NavLink>
             {" | "}
-            <Link to="/songList" activeClassName="active">Song Search</Link>
+            <NavLink to="/albumList" activeClassName="active">Album Search</NavLink>
             {" | "}
-            <Link to="/managePlaylists" activeClassName="active">Manage Playlists</Link>
+            <NavLink to="/songList" activeClassName="active">Song Search</NavLink>
+            {" | "}
+            <NavLink to="/managePlaylists" activeClassName="active">Manage Playlists</NavLink>
         </nav>
         <Player playlist={[]} songhist={[]} />
         </div>

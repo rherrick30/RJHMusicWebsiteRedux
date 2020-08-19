@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import PlaylistSelectionBase from './PlaylistSelectionBase';
 import PlaylistSourceItem from './PlaylistSourceItem';
 import { isArray } from 'util';
@@ -12,7 +12,9 @@ class PlaySelectArtist extends PlaylistSelectionBase{
         const newItem = {
             type : "artist",
             key : artist._id,
-            title : artist.artist
+            title : artist.artist,
+            songCount: artist.songCount,
+            sizeInMb: artist.sizeInMb,
         };
         this.props.selectFunction(newItem);
     }

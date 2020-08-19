@@ -1,14 +1,14 @@
-import React, {PropTypes} from 'react';
-import {render} from 'react-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 
 
 const SongTile = (props) => {
-    const _actionClick = (sender) => {
-        props.actionButtons[sender.target.value].actionFx(props.song);
-    };
     let buttons = 
         props.actionButtons.map( (element,ndx) => {
-          return(<a key={props.parentKey + ":btn:" + ndx} href="#" className="commandLink" onClick={_actionClick}><i className={element.iconClass} value={ndx}></i></a>);  
+          return(<a key={props.parentKey + ":btn:" + ndx} href="#" className="commandLink" onClick={()=>{
+              element.actionFx(props.song);
+          }}><i className={element.iconClass} value={ndx}></i></a>);  
         });
     
     return(<div className="aboutMusicTile">{buttons}   {props.song.songName} <span className="aboutMusicTileSource">(from {props.song.title} by {props.song.artist})</span></div>);
