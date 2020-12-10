@@ -193,9 +193,13 @@ input[type=range] {
     text-decoration: none;
     color: black;
 }
+
+.queryDetailItem, .queryResultItem{
+  padding-left: 10px;
+  padding-bottom: 5px;
+}
   
-  
-.artistBrowserList{
+.artistBrowserList, .queryResults{
       width: 35%;
       height: 500px;
       overflow-y: scroll;
@@ -205,7 +209,7 @@ input[type=range] {
       float: left;
 }
   
-.artistListArtistDetail{
+.artistListArtistDetail, .queryDetail{
       width: 65%;
       height: 500px;
       left: 400px;  
@@ -214,9 +218,10 @@ input[type=range] {
       overflow-y: scroll;
 }
   
-.artistListAlbumTitle{
+.artistListAlbumTitle, .queryDetailHeader {
       font-size: 1.2em;
       font-weight: bold;
+      padding-bottom: 5px;
 }
   
     .tooltip {

@@ -7,6 +7,7 @@ import ArtistListPage from './artistList/ArtistListPage';
 import AlbumListPage from './albumList/AlbumListPage'
 import SongListPage from './songList/SonglistPage';
 import ManagePlaylistsPage from './managePlaylists/ManagePlaylistsPage';
+import SummaryPage from './summary/SummaryPage';
 
 function App(){
         return(
@@ -19,6 +20,7 @@ function App(){
                     <Route path="/albumList" component={AlbumListPage} />
                     <Route path="/songlist" component={SongListPage} />
                     <Route path="/managePlaylists" component={ManagePlaylistsPage} />
+                    <Route path="/summary" component={SummaryPage} />
                 </Switch>
             </div>
         );
