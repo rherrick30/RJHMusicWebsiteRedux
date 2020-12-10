@@ -16,6 +16,8 @@ const Header = () => {
             {" | "}
             <NavLink to="/songList" activeClassName="active">Song Search</NavLink>
             {" | "}
+            <NavLink to='/summary' activeClassName="active">Summaries</NavLink>
+            {" | "}
             <NavLink to="/managePlaylists" activeClassName="active">Manage Playlists</NavLink>
         </nav>
         <Player playlist={[]} songhist={[]} />

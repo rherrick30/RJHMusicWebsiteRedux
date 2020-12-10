@@ -113,8 +113,10 @@ const apiHelper = {
     },
     getstats(){
         return getFunction(baseUrl + 'collectionstats')
+    },
+    getSummary(category){
+        return postFunction(baseUrl + 'summary', {category})
     }
-
 
 };
 
