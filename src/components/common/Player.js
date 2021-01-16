@@ -26,6 +26,8 @@ const Player = (props) => {
     const [playlists, setPlaylists] = useState([])
     const [selectedPlaylist , setSelectedPlaylist ] = useState("(none)")
     const [autoRandomize, setAutoRandomize] = useState(false)
+    const [sleepTimer, setSleepTimer] = useState(false)
+    const [sleepTimeSec, setSleepTimeSec] = useState(0)
 
     useEffect(()=>{
         apiHelper.getPlayLists().then(
@@ -151,6 +153,31 @@ const Player = (props) => {
         setAutoRandomize(isChecked);
     }
 
+    const _sleepCountDown = (seconds) => {
+        const chxSleepMode = document.getElementById("chxSleepMode");
+        if(!chxSleepMode.checked){
+            setSleepTimeSec(0);
+            return;
+        }
+        if(seconds>0 ){
+            setSleepTimeSec(seconds)
+            setTimeout(() => {_sleepCountDown(seconds - 1);}, 1000)
+        }else{
+            setSleepTimeSec(0)
+            const audio = document.getElementById("audioPlayer");
+            audio.pause()
+        }
+    }
+
+    const onCheckSleepTimer = (event) => {
+        const sleepTime = 90 * 60
+        const checked = event.target.checked
+        setSleepTimeSec(sleepTime)
+        setSleepTimer(checked)
+        if(checked){
+            _sleepCountDown(sleepTime)
+        }
+    }
 
     return(
           <div className="player">
@@ -176,6 +203,9 @@ const Player = (props) => {
               <input className="playerSongProgress" type="range" id="songProgress" min="0" max="100" onChange={songScan} />
           </div>
           <div>
+          <div>
+              <input id={"chxSleepMode"} type="checkbox" value={sleepTimer} onChange={onCheckSleepTimer} />Sleep Timer {(sleepTimer)? new Date(1000 * sleepTimeSec).toISOString().substr(11, 8) : ""}
+          </div>    
           there are {(props.playlist && Array.isArray(props.playlist)) ? props.playlist.filter(a=>a).length : '0'} entries in the playlist. 
           Current Tag:<span>   </span><select onChange={selectPlaylist}>
               <option value={`(None)`}>(None)</option>
