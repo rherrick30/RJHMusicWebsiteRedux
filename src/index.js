@@ -12,7 +12,7 @@ import { querySonghist} from './actions/songhistActions';
 //import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
-store.dispatch(loadArtists());
+store.dispatch(loadArtists(true));
 store.dispatch(queryPlaylist());
 store.dispatch(querySonghist());
 render(
