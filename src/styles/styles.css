@@ -12,6 +12,11 @@ div.mainBody{
     font-size: 0.7em;  
 }
 
+.playlistSelector{
+  display:inline-flex;
+  align-items: center;
+}
+
 /* Music Player styles  */
 div.player{
   padding: 5px;

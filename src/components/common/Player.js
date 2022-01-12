@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 import apiHelper from '../../api/apiHelper';
 import {connect} from 'react-redux';
@@ -54,14 +55,14 @@ const Player = (props) => {
     },[props.playlist])
 
     const selectPlaylist = (event) =>{
-        let newTag = (event.target.value == "(None)") ? "" : event.target.value;
-        apiHelper.getPlayLists().then(
-            result => { 
-                setPlaylists(result);
-                props.playlistActions.setTag(newTag);
-                setSelectedPlaylist(newTag);
-            }
-        );
+        if(event==null){
+            props.playlistActions.setTag('');
+            setSelectedPlaylist('');
+        }else{
+            let newTag = (event.value == "(None)") ? "" : event.value;
+            props.playlistActions.setTag(newTag);
+            setSelectedPlaylist(newTag);
+        }
     }
 
     const setNextSong = (data) =>{
@@ -179,6 +180,15 @@ const Player = (props) => {
         }
     }
 
+    const playlistSelectorStyle = {
+        control:(defaults)=>({
+            ...defaults,
+            width:350,
+            'margin-left':10,
+            'margin-right':50,
+        })
+    }
+    
     return(
           <div className="player">
           <p><span className="grandSongTitle">{song.songName}</span>{(song._id === -1) ? "" : " by "}
@@ -206,14 +216,20 @@ const Player = (props) => {
           <div>
               <input id={"chxSleepMode"} type="checkbox" value={sleepTimer} onChange={onCheckSleepTimer} />Sleep Timer {(sleepTimer)? new Date(1000 * sleepTimeSec).toISOString().substr(11, 8) : ""}
           </div>    
-          there are {(props.playlist && Array.isArray(props.playlist)) ? props.playlist.filter(a=>a).length : '0'} entries in the playlist. 
-          Current Tag:<span>   </span><select onChange={selectPlaylist}>
-              <option value={`(None)`}>(None)</option>
-              {playlists.map(e=>{
-                 return(<option key={e._id} value={e._id}>{e.name}</option>);
-              })}
-              </select>
-              <input type="checkbox" value={autoRandomize} onChange={setAutoRandom}/> Auto Random?
+          <div className='playlistSelector' >
+          there are {(props.playlist && Array.isArray(props.playlist)) ? props.playlist.filter(a=>a).length : '0'} entries in the playlist. Current Tag:
+          <Select 
+            options={playlists.map(e=> {return {value:e._id, label:e.name}})} 
+            onChange={selectPlaylist}
+            setValue={v=>{
+                selectPlaylist(v)
+            }}
+            isClearable={true}
+            styles={playlistSelectorStyle}
+
+          />
+           <input type="checkbox" value={autoRandomize} onChange={setAutoRandom}/> Auto Random?
+           </div>
           </div>
           </div>
    );
