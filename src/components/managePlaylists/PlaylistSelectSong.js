@@ -4,6 +4,8 @@ import PlaylistSelectionBase from './PlaylistSelectionBase';
 import { isArray } from 'util';
 import PlaylistSourceItem from './PlaylistSourceItem';
 import apiHelper from '../../api/apiHelper'
+import Selector from '../controls/Selector'
+
 
 class PlaySelectSong extends PlaylistSelectionBase {
     constructor(props){
@@ -15,7 +17,7 @@ class PlaySelectSong extends PlaylistSelectionBase {
             },
             selectedAlbum : {
                 songs: []
-            }
+            },
         };
         this.selectSong = this.selectSong.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
@@ -32,42 +34,60 @@ class PlaySelectSong extends PlaylistSelectionBase {
         this.props.selectFunction(newItem);
     }
     selectAlbum(event){
-        const selectedId = event.target.value;
-        let newAlbum = {};
+        const selectedId = (event) ? event.value : -1;
+        let newAlbum = {
+            songs: []
+        };
         this.state.selectedArtist.albums.forEach(a=>{
-            if(a._id == selectedId){ newAlbum = a;}
+            if(a._id == selectedId){ newAlbum = Object.assign({},a);}
         });
         this.setState(()=>({
             selectedAlbum : newAlbum
         }));
     }
     selectArtist = async (event) => {
-        const selectedId = event.target.value;
+        const selectedId = (event) ? event.value : -1;
         if( selectedId!=-1){
             const newArtist = await apiHelper.artist(selectedId)
-            this.setState(() => ({ selectedArtist: newArtist}))
-        }
+            this.setState(() => ({ 
+                selectedArtist: newArtist,
+                selectedAlbum: {songs:[]},
+            }))
+        }else{
+            //this.selectAlbum(null);
+            this.setState(()=> ({
+                selectedArtist : { albums:[] },
+                selectedAlbum: {songs:[]},
+            }))
+           }
     }
     render(){
-    const localArtists = (isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];
+    const localArtists = (Array.isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];
     return(<div>
         <h3>Select an Artist {"&"} Album and then pick a Song</h3>
-        <label>artist filter:</label><input type="text" onChange={this.filterTextChange}></input>
-        <select className="managePlaylistsArtistSelect"  onChange={this.selectArtist}>
-        <option value="-1">(Select Artist)</option>
-        {localArtists.map(a=>{
-            return(<option key={a.artist} value={a._id}>{a.artist}</option>);
-        })}
-        </select><p/>
-        <label>albums:</label><select className="managePlaylistsArtistSelect"  onChange={this.selectAlbum}>
-        <option value="-1">(Select Album)</option>
-        {this.state.selectedArtist.albums.map(a=>{
-            return(<option key={"alb:" + a.title} value={a._id}>{a.title}</option>);
-        })}
-        </select><p />
+        <Selector 
+            onChange={this.selectArtist}
+            options = {localArtists.map(e=>{
+                return {value:e._id, label:e.artist} 
+            })}
+            isClearable={true}
+            placeholder={`Pick an artist`}
+        />
+        <p/>
+        <Selector 
+            key={`albumselectorfir_${this.state.selectedArtist.artist || 'none'}`}
+            onChange={this.selectAlbum}
+            options = {this.state.selectedArtist.albums.map(e=>{
+                return {value:e._id, label:e.title} 
+            })}
+            isClearable={true}
+            placeholder={`Pick an album`}
+        />
+        <div key={this.state.selectedArtist.artist || 'acun'}>
         {this.state.selectedAlbum.songs.map(s=>{
-            return(<PlaylistSourceItem key={"song:" + s.songName} oItem={s} displayText={s.songName} selectFunction={this.selectSong} />);
+            return(<PlaylistSourceItem key={`song:${s.songName}_${this.state.selectedArtist.artist || 'acun'}`} oItem={s} displayText={s.songName} selectFunction={this.selectSong} />);
          })}
+         </div>
         </div>);
     }
 }
