@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
 import apiHelper from '../../api/apiHelper';
 import {connect} from 'react-redux';
@@ -7,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as playlistActions from '../../actions/playlistActions';
 import * as songhistActions from '../../actions/songhistActions';
 import _ from 'lodash';
+import Selector from '../controls/Selector'
 
 const Player = (props) => {
 
@@ -180,15 +180,7 @@ const Player = (props) => {
         }
     }
 
-    const playlistSelectorStyle = {
-        control:(defaults)=>({
-            ...defaults,
-            width:350,
-            'margin-left':10,
-            'margin-right':50,
-        })
-    }
-    
+   
     return(
           <div className="player">
           <p><span className="grandSongTitle">{song.songName}</span>{(song._id === -1) ? "" : " by "}
@@ -218,15 +210,13 @@ const Player = (props) => {
           </div>    
           <div className='playlistSelector' >
           there are {(props.playlist && Array.isArray(props.playlist)) ? props.playlist.filter(a=>a).length : '0'} entries in the playlist. Current Tag:
-          <Select 
+          <Selector 
             options={playlists.map(e=> {return {value:e._id, label:e.name}})} 
             onChange={selectPlaylist}
             setValue={v=>{
                 selectPlaylist(v)
             }}
             isClearable={true}
-            styles={playlistSelectorStyle}
-
           />
            <input type="checkbox" value={autoRandomize} onChange={setAutoRandom}/> Auto Random?
            </div>

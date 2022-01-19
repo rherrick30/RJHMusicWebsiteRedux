@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import apiHelper from '../../api/apiHelper';
 import PlaylistDetail from './PlaylistDetail';
 import PlaylistItemSelector from './PlaylistItemSelector';
+import Selector from '../controls/Selector'
+
 
 const ManagePlaylistsPage = (props) =>{
 
@@ -23,10 +25,14 @@ const ManagePlaylistsPage = (props) =>{
     }
 
     const selectPlaylist = (event) =>{
-        const selectedList = event.target.value;
-        apiHelper.getPlaylist(selectedList).then(newList=>{
-            setSelectedPlaylist(Object.assign({}, newList, calculateStatsLocal(newList.entries)))
-        });
+        if(event==null){
+            setSelectedPlaylist(Object.assign({}, [], calculateStatsLocal([])))
+        }else{
+            const selectedList = event.value;
+            apiHelper.getPlaylist(selectedList).then(newList=>{
+                setSelectedPlaylist(Object.assign({}, newList, calculateStatsLocal(newList.entries)))
+            });
+        }
     }
 
     const addToPlaylist = (item) => {
@@ -73,16 +79,23 @@ const ManagePlaylistsPage = (props) =>{
             <h1>Manage Playlists: </h1>
             
             <form>
+                <div className="playlistSelector">
                 <input type="radio" name="mode" value="add" onChange={changeMode} checked={mode=="add"} />add
                 <input type="radio" name="mode" value="edit" onChange={changeMode} checked={mode=="edit"}/>edit
                 <span>   </span>
-                <select className={(mode == "edit") ? "visible": "invisible"} onChange={selectPlaylist}>
-                    {(Array.isArray(playlists)) ? playlists.map(e=>{
-                        return(<option key={e.name} value={e._id} >{e.name}</option>);
-                    }) : <option>(None)</option> }
-                </select>
-                <input type="text" className={(mode == "add") ? "visible": "invisible"} onChange={playlistNameChange} />
+                {mode === "edit" &&
+                <Selector 
+                    onChange={selectPlaylist}
+                    options = {(Array.isArray(playlists)) ? playlists.map(e=>{
+                        return {value:e._id, label:e.name} 
+                    }) : [] }
+                    isClearable={true}
+                />}
+                {mode === "add" &&
+                <input type="text" className="playlistTitle" onChange={playlistNameChange} />
+                }
                 <button type="button" onClick={savePlaylist}>Save</button>
+                </div>
             </form>
             <br />
             <PlaylistItemSelector selectFunction={addToPlaylist} artists={Array.isArray(props.artists) ? props.artists : []}/>
