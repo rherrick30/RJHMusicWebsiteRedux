@@ -37,7 +37,7 @@ const ArtistListArtistDetail = (props)=> {
         return(<div className="artistListArtistDetail">
                     <h3>{item.artist}</h3> {newSongs.length} song{(newSongs.length>1)?'s' : ''} on {item.albums.length} album{(item.albums.length>1)?'s' : ''}
                     <p>
-                        from {item.nationality}.  {`I've been a fan since ${item.dateOfInterest}`}  <a href="#" onClick={addAllSongsForArtist}><i className="fas fa-plus-circle"></i></a>(add all songs)
+                        from {item.nationality}.  {`I've been a fan since ${item.dateOfInterest}`}  <a href="#" onClick={addAllSongsForArtist}><i className="fas fa-plus-circle defaultColor"></i></a>(add all songs)
                     </p>
                     {item.albums.map(a => {
                     return (<ArtistListAlbumDetail key={a._id} album={a} artistName={item.artist}  />);

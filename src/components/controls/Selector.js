@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 
 const Selector = ({customStyle, onChange, ...props}) => {
     const defaultSelectorStyle = {
+        option: (defaults)=>({
+            ...defaults,
+            color: 'black',
+            'backgound-color': 'transparent'
+        }),
         control:(defaults)=>({
             ...defaults,
             width:350,
@@ -13,6 +18,7 @@ const Selector = ({customStyle, onChange, ...props}) => {
     }
 
     return (<Select 
+        className="selectorColors"
         styles={ Object.assign({}, {...defaultSelectorStyle}, {...customStyle})}
         onChange={onChange}
         setValue={v=>onChange(v)}
