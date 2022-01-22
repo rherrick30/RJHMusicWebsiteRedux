@@ -7,7 +7,7 @@ const ArtistListItem = (props) => {
         props.selectFunction(props.artist);
     }
     return(
-        <div><a className="artistBrowserListEntry" onClick={_onClick} href="#">{props.artist.artist}</a><br/></div>
+        <div><a className="artistBrowserListEntry defaultColor" onClick={_onClick} href="#">{props.artist.artist}</a><br/></div>
     )
 }
 

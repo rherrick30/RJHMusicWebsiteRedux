@@ -67,7 +67,7 @@ const SummaryPage = (props) => {
             </div>
             <div className="queryResults">
                     {queryResults.map(r=>{
-                        return(<><a className="queryDetailItem" href="#" key={r.key} onClick={()=>{clickHandler(r)}}>{`${r.key} (${r.artists.length} artists, ${r.albums.length} albums)`}</a><br/></>)
+                        return(<><a className="queryDetailItem defaultColor" href="#" key={r.key} onClick={()=>{clickHandler(r)}}>{`${r.key} (${r.artists.length} artists, ${r.albums.length} albums)`}</a><br/></>)
                     })}
             </div>
             <div className="queryDetail" >

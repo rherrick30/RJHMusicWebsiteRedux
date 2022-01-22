@@ -43,7 +43,7 @@ const ArtistListAlbumDetail = (props) => {
     return(<div>
                 
                 <div className="tooltip"><span className="tooltiptext">Move all songs to playlist (end)</span>
-                <a href="#" onClick={addEntireAlbum}><i className="fas fa-plus-circle"></i></a></div>
+                <a href="#" onClick={addEntireAlbum}><i className="fas fa-plus-circle defaultColor"></i></a></div>
                 <span className="artistListAlbumTitle">{'   ' + album.title}</span> (Released {album.releaseYear}, purchased {album.aquisitionYear})
                 <ul className="artistListSongList">
                 {album.songs.map(s =>{
