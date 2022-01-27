@@ -12,7 +12,7 @@ const StatsPanel = (props) =>  {
         result.push(<div>
             <a href="#" onClick={()=>{addToPlaylist(a)}}><i className="fas fa-plus-circle defaultColor"></i></a>
             {'   '}
-            <span className="homeAlbumTitle">{a.title}</span> by <span className="homeAlbumArtist">{a.artist}</span>
+            <span className="homeAlbumTitle auxColor">{a.title}</span> by <span className="homeAlbumArtist">{a.artist}</span>
             </div>);
         return result[0];
     };

@@ -11,7 +11,7 @@ const SongTile = (props) => {
           }}><i className={element.iconClass} value={ndx}></i></a>);  
         });
     
-    return(<div className="aboutMusicTile">{buttons}   {props.song.songName} <span className="aboutMusicTileSource">(from {props.song.title} by {props.song.artist})</span></div>);
+    return(<div className="aboutMusicTile auxColor">{buttons}   {props.song.songName} <span className="aboutMusicTileSource defaultColor">(from {props.song.title} by {props.song.artist})</span></div>);
 };
 
 SongTile.propTypes = {
