@@ -3,6 +3,8 @@ import PlaylistSelectionBase from './PlaylistSelectionBase';
 import { isArray } from 'util';
 import PlaylistSourceItem from './PlaylistSourceItem';
 import apiHelper from '../../api/apiHelper'
+import Selector from '../controls/Selector'
+
 
 class PlaySelectAlbum extends PlaylistSelectionBase {
     constructor(props){
@@ -27,23 +29,28 @@ class PlaySelectAlbum extends PlaylistSelectionBase {
         this.props.selectFunction(newItem);
     }
     selectArtist = async (event) => {
-        const selectedId = event.target.value;
+        const selectedId = (event) ? event.value : -1;
         if( selectedId!=-1){
             const newArtist = await apiHelper.artist(selectedId)
             this.setState(() => ({ selectedArtist: newArtist}))
+        }else{
+            this.setState(()=> ({selectedArtist : {
+                albums:[]
+            }}))
         }
     }
     render(){
-    const localArtists = (isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];    
+    const localArtists = (Array.isArray(this.state.filteredArtists)) ? this.state.filteredArtists : [];    
     return(<div>
-        <h3>Select an Artist, then pick an Album</h3>
-        <label>artist filter:</label><input type="text" onChange={this.filterTextChange}></input><p />
-        <select className="managePlaylistsArtistSelect" onChange={this.selectArtist}>
-        <option value="-1">(Select an Artist)</option>
-        {localArtists.map(a=>{
-                    return(<option key={a.artist} value={a._id}>{a.artist}</option>);
-                })}
-        </select><p/>
+        <h3>Pick an Artist, then select an Album</h3>
+        <Selector 
+            onChange={this.selectArtist}
+            options = {localArtists.map(e=>{
+                return {value:e._id, label:e.artist} 
+            })}
+            isClearable={true}
+            placeholder={`Pick an artist`}
+        /><p/>
         {this.state.selectedArtist.albums.map(a=>{
             return(<PlaylistSourceItem key={"alb:" + a.title} oItem={a} displayText={a.title} selectFunction={this.selectAlbum} />);
          })}

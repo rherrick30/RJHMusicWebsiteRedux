@@ -62,9 +62,9 @@ const PlayerStatusPage = (props) => {
             <h1>Player Status</h1>
             <input type="button" className="playlistButton" value="Clear Playlist" onClick={clearPlaylist}/>
             <input type="button" className="playlistButton" value="Shuffle Playlist" onClick={shufflePlaylist}/>
+            <input type="button" className="playlistButton" value="Save Playlist" onClick={savePlaylist}/>
             <div >
                 <input type="text" onChange={onPlaylistNameChange}  />
-                <input type="button" className="playlistButton" value="Save Playlist" onClick={savePlaylist}/>
             </div>
             <div className="aboutCurrentlyPlaying" >
             <h5>Current Queue:</h5>
@@ -82,9 +82,6 @@ const PlayerStatusPage = (props) => {
             {(Array.isArray(props.songhist)) ?  props.songhist.map((s,ndx) =>{
             return(<SongTile key={ndx + ":history"} parentKey={ndx + ":history"} song={s} actionButtons={historyButtons}/>);
             }): (<div />)}
-            </div>
-            <div className="footer">
-            By <a href="//commons.wikimedia.org/wiki/User:Basile_Morin" title="User:Basile Morin">Basile Morin</a> - <span className="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=86948782">Link</a>  
             </div>
         </div>
     );

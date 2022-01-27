@@ -9,7 +9,7 @@ const PlaylistDetailItem = (props) => {
     const item = props.item;
     return (
         <div>
-            <a key={item.key + ":btn"} href="#" className="commandLink" onClick={_onClick}><i className="fas fa-times-circle" value={item}></i></a>
+            <a key={item.key + ":btn"} href="#" className="commandLink defaultColor" onClick={_onClick}><i className="fas fa-times-circle" value={item}></i></a>
             ({item.type}) {item.title}
         </div>
     );

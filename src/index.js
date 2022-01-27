@@ -7,7 +7,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import App from './components/App';
 import {loadArtists} from './actions/artistActions';
 import {queryPlaylist} from './actions/playlistActions';
-import './styles/styles.css';
+import './styles/light.css';
 import { querySonghist} from './actions/songhistActions';
 //import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 

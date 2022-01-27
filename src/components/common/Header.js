@@ -6,19 +6,19 @@ const Header = () => {
     return(
         <div>
         <nav>
-            <NavLink to="/" activeClassName="active" exact>Home</NavLink>
+            <NavLink to="/" activeClassName="activeHeaderLink" className="inactiveHeaderLink" exact>Home</NavLink>
             {" | "}
-            <NavLink to="/about" activeClassName="active">Player Status</NavLink>
+            <NavLink to="/about" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Player Status</NavLink>
             {" | "}
-            <NavLink to="/artistList" activeClassName="active">Artist List</NavLink>
+            <NavLink to="/artistList" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Artist List</NavLink>
             {" | "}
-            <NavLink to="/albumList" activeClassName="active">Album Search</NavLink>
+            <NavLink to="/albumList" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Album Search</NavLink>
             {" | "}
-            <NavLink to="/songList" activeClassName="active">Song Search</NavLink>
+            <NavLink to="/songList" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Song Search</NavLink>
             {" | "}
-            <NavLink to='/summary' activeClassName="active">Summaries</NavLink>
+            <NavLink to='/summary' activeClassName="activeHeaderLink" className="inactiveHeaderLink">Summaries</NavLink>
             {" | "}
-            <NavLink to="/managePlaylists" activeClassName="active">Manage Playlists</NavLink>
+            <NavLink to="/managePlaylists" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Manage Playlists</NavLink>
         </nav>
         <Player playlist={[]} songhist={[]} />
         </div>

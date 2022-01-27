@@ -2,8 +2,17 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Libre Baskerville',Georgia,serif;
-    background: radial-gradient(red, lightblue);
-    opacity: 0.99;
+    background: radial-gradient( blue, black);
+    color: white;
+}
+
+.defaultColor {
+    color: white;
+}
+
+.selectorColors {
+  background-color: transparent;
+  color: white;
 }
 
 div.mainBody{
@@ -19,10 +28,20 @@ div.mainBody{
   align-items: center;
 }
 
+.inactiveHeaderLink{
+    color:white;
+}
+
+.activeHeaderLink{
+    color:black;
+    background-color: white;
+    font-weight: bold;
+}
+
 /* Music Player styles  */
 div.player{
   padding: 5px;
-  border-bottom: 5px solid darkblue;
+  border-bottom: 5px solid white;
   width: 1000px;
 }
 
@@ -60,13 +79,13 @@ input[type=range] {
   input[type=range]::-webkit-slider-runnable-track {
     height: 2px;
     cursor: pointer;
-    box-shadow: 0px 0px 0px #000000;
-    background: #000000;
+    box-shadow: 0px 0px 0px white;
+    background: white;
     border-radius: 1px;
-    border: 0px solid #000000;
+    border: 0px solid white;
   }
   input[type=range]::-webkit-slider-thumb {
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
     border: 1px solid #2497E3;
     height: 18px;
     width: 18px;
@@ -82,13 +101,13 @@ input[type=range] {
   input[type=range]::-moz-range-track {
     height: 5px;
     cursor: pointer;
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
     background: #2497E3;
     border-radius: 1px;
-    border: 0px solid #000000;
+    border: 0px solid white;
   }
   input[type=range]::-moz-range-thumb {
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
     border: 1px solid #2497E3;
     height: 18px;
     width: 18px;
@@ -105,24 +124,24 @@ input[type=range] {
   }
   input[type=range]::-ms-fill-lower {
     background: transparent;
-    border: 0px solid #000000;
+    border: 0px solid white;
     border-radius: 2px;
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
   }
   input[type=range]::-ms-fill-upper {
     background: transparent;
-    border: 0px solid #000000;
+    border: 0px solid white;
     border-radius: 2px;
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
   }
   input[type=range]::-ms-thumb {
     margin-top: 1px;
-    box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px white;
     border: 1px solid #2497E3;
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: #FFFFFF;
+    background: white;
     cursor: pointer;
   }
   input[type=range]:focus::-ms-fill-lower {
@@ -160,15 +179,15 @@ input[type=range] {
     background-color: transparent;
     font-family: 'Libre Baskerville',Georgia,serif;
     border: 2px solid white;
+    color: white;
     padding: 5px;
 }
 
 .aboutMusicTile{
-    border: 1px solid black;
-    background: whitesmoke ;
+    border: 2px solid transparent;
+    background: transparent ;
     display: block;
     width: 1000px;
-    color: royalblue;
 }
 
 .aboutMusicTile::selection{
@@ -181,7 +200,7 @@ input[type=range] {
 
 .aboutMusicTileSource{
     font-size: 0.7em;
-    color: black;
+    color: white;
 }
 
 .aboutMusicTileSource::selection{
@@ -195,7 +214,6 @@ input[type=range] {
   /*Artist List Styles */
   .artistBrowserListEntry{
     text-decoration: none;
-    color: black;
 }
 
 .queryDetailItem, .queryResultItem{
@@ -208,8 +226,6 @@ input[type=range] {
       height: 500px;
       overflow-y: scroll;
       text-align: center;
-      color: black;
-      background-color: whitesmoke;
       float: left;
 }
   
@@ -235,9 +251,9 @@ input[type=range] {
 .tooltip .tooltiptext {
       visibility: hidden;
       width: 120px;
-      background-color: black;
-      color: #fff;
       text-align: center;
+      background-color: white;
+      color: black;
       border-radius: 6px;
       padding: 5px 0;
       position: absolute;
@@ -257,7 +273,6 @@ input[type=range] {
 }
   
 a, icon{
-    color: black;
     text-decoration: none;
 }
 
@@ -292,8 +307,6 @@ a, icon{
 /* Home page styles */
 
 .homePage{
-  color: black;
-  background-color: whitesmoke;
   width: 100%;
 }
 
@@ -301,16 +314,9 @@ div.statsPanel{
   width: 80%;
   height: 770px;
   text-align: left;
-  color: black;
-  background-color: whitesmoke;
   float: left;
 }
 
-span.homeAlbumArtist{
-  color:navy;
-}
-
 span.homeAlbumTitle{
-  color: brown;
   font-weight: bold;
 }

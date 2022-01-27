@@ -11,7 +11,7 @@ class PlaylistSourceItem extends React.Component {
         this.props.selectFunction(this.props.oItem);
     }
     render(){ return(
-        <div><a className="artistBrowserListEntry" onClick={this._onClick} href="#">{this.props.displayText}</a><br/></div>
+        <div><a className="artistBrowserListEntry defaultColor" onClick={this._onClick} href="#">{this.props.displayText}</a><br/></div>
     );}
 }
 

@@ -18,7 +18,7 @@ const PlaylistItemSelector = (props) => {
         }
     }
 
-    const playlistItemLink = (_type) => { return (<a href="#" className="selectPlaylistItem" 
+    const playlistItemLink = (_type) => { return (<a href="#" className="selectPlaylistItem defaultColor" 
             onClick={()=>{
                 setSelectedType(_type);
             }}>{`${_type}`}</a>)  }
