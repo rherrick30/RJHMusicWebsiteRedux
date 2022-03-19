@@ -25,8 +25,8 @@ const ArtistListPage = (props) => {
 
     useEffect(()=>{
         if(filterText.length>0){
-            const searchKey = filterText.toLowerCase()
-            setFilteredArtists(Object.assign([], props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == searchKey)))
+            const reSearchKey = new RegExp(filterText.toLowerCase())
+            setFilteredArtists(Object.assign([], props.artists.filter(a => reSearchKey.test(a._sortkey.toLowerCase()))))
         }else{
             setFilteredArtists(Object.assign([], props.artists))
         }

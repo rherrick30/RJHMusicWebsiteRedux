@@ -16,8 +16,9 @@ class PlaylistSelectionBase extends React.Component{
     }
     filterArtistList(filterText){
         if(filterText.length>0){
+            const reSearchKey = new RegExp(filterText.toLowerCase())
             this.setState(()=>({
-                filteredArtists: Object.assign([], this.props.artists.filter(a => a._sortkey.toLowerCase().substring(0, filterText.length) == filterText))
+                filteredArtists: Object.assign([], this.props.artists.filter(a => reSearchKey.test(a._sortkey.toLowerCase())))
             }));
         }else{
             this.setState(()=>({
