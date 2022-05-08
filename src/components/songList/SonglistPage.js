@@ -17,16 +17,19 @@ const SongListPage = (props) => {
         setSearchText(searchText);
     }
 
-    const addToPlaylist = (song) => {
-        let newSong = Object.assign({}, song);
-        props.playlistActions.pushPlaylist({
-            songs: [newSong]
-        });
-    }
     const addPlaylistNext = (song) => {
         let newSong = Object.assign({}, song);
         props.playlistActions.addPlaylistNext({
             songs: [newSong]
+        });
+    }
+    const addToPlaylist = async (song) => {
+        const album = await apiHelper.album(song.albumfk)
+        console.log(JSON.stringify(album))
+        props.playlistActions.addPlaylistNext({
+            songs: album.songs.map(s=>{
+                return Object.assign({}, s, {title: album.title, artist: album.artist})
+            })
         });
     }
     const executeSearch = () => {
@@ -67,7 +70,7 @@ const SongListPage = (props) => {
         Cell: renderUpArrow
     },
     {
-        Header: 'Add to Playlist',
+        Header: 'Add album to playlist',
         id: 'addList',
         Cell: renderDownArrow
     }
