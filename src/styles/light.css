@@ -34,6 +34,10 @@ div.mainBody{
   width: 2000;
 }
 
+#app{
+  padding: 10px;
+}
+
 .footer {
     font-size: 0.7em;  
 }

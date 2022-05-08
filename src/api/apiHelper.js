@@ -58,7 +58,7 @@ const apiHelper = {
         return getFunction(baseUrl + 'albums');
     },
     album(id){
-        return getFunction(baseUrl + 'album/' + id);
+        return getFunction(baseUrl + `album/${id}?includeSongs=true&includeArtist=true`);
     },
     artists(randomize){
         return getFunction(baseUrl + `artists?includeAlbums=false&includeSongs=false&randomize=${(randomize)? "true" : "false"}`);
