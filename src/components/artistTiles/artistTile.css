@@ -1,0 +1,41 @@
+.artistTileArea{
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 80%;
+}
+
+.artistTile{
+    text-align: center;
+    vertical-align: top;
+    color: darkslategray;
+    background-color: white;
+    border: dashed 3px darkslategray;
+    margin: 1em 1em;
+    padding: 0em;
+    font-size: 1em;
+    width: 10em;
+    height: 10em;
+}
+
+.artistTile:hover{
+    background-color: darkslategray;
+    color:white;
+}
+
+.artistTileTitle{
+    font-size: 1em;
+}
+
+.artistTileMinorText {
+    font-size: 0.8em;
+
+}
+
+.artistTileArtistDetail, .queryDetail{
+    width: 100%;
+    height: 500px;
+    left: 400px;  
+    display: inline-block;
+    overflow-y: scroll;
+}
