@@ -65,8 +65,10 @@ const ArtistTilesPage = (props) => {
     return (
        <div className="artistListMainView">
            <h1>Artist List</h1>
-           <label>Search for:</label><input type="text" value={filterText} onChange={filterTextChange}></input>
-           <input type="button" onClick={randomArtist} value="Random" />
+           <div className="artistSearchInput">
+            <label>Search for:</label><input type="text" value={filterText} onChange={filterTextChange}></input>
+            <input type="button" onClick={randomArtist} value="Random" />
+           </div>
            <ArtistList artists={(Array.isArray(filteredArtists)) ? filteredArtists : []} selectFunction={selectArtist} />
         
         <Modal
