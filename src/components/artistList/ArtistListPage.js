@@ -44,9 +44,10 @@ const ArtistListPage = (props) => {
     return (
        <div className="artistListMainView">
            <h1>Artist List</h1>
+           <div className="artistSearchInput">
            <label>Search for:</label><input type="text" value={filterText} onChange={filterTextChange}></input>
            <input type="button" onClick={randomArtist} value="random" />
-           <br />
+           </div>
            <ArtistList artists={(Array.isArray(filteredArtists)) ? filteredArtists : []} selectFunction={selectArtist} />
            <ArtistListArtistDetail artist={selectedArtist}/>
        </div>
