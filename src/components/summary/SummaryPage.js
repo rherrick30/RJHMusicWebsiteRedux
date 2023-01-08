@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 import apiHelper from '../../api/apiHelper';
 import _ from 'lodash'
 
 
-const SummaryPage = (props) => {
+const SummaryPage = () => {
     const [queryResults, setQueryResults] = useState([]);
     const [queryDetail, setQueryDetail] = useState([]);
     const [category, setCategory] = useState("");

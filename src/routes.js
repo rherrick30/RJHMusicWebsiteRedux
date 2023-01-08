@@ -7,6 +7,7 @@ import ArtistListPage from './components/artistList/ArtistListPage';
 import AlbumListPage from './components/albumList/AlbumListPage';
 import SongListPage from './components/songList/SonglistPage';
 import ManagePlaylistsPage from './components/managePlaylists/ManagePlaylistsPage';
+import WordBrainSolver from './components/wordBrainSolver/WordBrainSolver';
 
 export default(
     <div className="mainBody">
@@ -17,6 +18,7 @@ export default(
         <Route path="albumList" component={AlbumListPage} />
         <Route path="songlist" component={SongListPage} />
         <Route path="managePlaylists" component={ManagePlaylistsPage} />
+        <Route path="wordBrain" component={WordBrainSolver} />
     </Route>
     </div>
 );

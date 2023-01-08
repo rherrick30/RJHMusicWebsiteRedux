@@ -19,6 +19,8 @@ const Header = () => {
             <NavLink to='/summary' activeClassName="activeHeaderLink" className="inactiveHeaderLink">Summaries</NavLink>
             {" | "}
             <NavLink to="/managePlaylists" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Manage Playlists</NavLink>
+            {" | "}
+            <NavLink to="/wordBrain" activeClassName="activeHeaderLink" className="inactiveHeaderLink">Word Brain</NavLink>
         </nav>
         <Player playlist={[]} songhist={[]} />
         </div>

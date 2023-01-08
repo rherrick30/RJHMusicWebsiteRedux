@@ -6,7 +6,7 @@ import * as artistActions from '../../actions/artistActions';
 import apiHelper from '../../api/apiHelper';
 import ArtistList from './components/ArtistList';
 import ArtistDetail from './components/ArtistDetail';
-import styles from './artistTile.css'
+import './artistTile.css'
 import Modal from 'react-modal';
 
 const ArtistTilesPage = (props) => {

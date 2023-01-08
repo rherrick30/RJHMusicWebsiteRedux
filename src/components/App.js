@@ -9,6 +9,8 @@ import AlbumListPage from './albumList/AlbumListPage'
 import SongListPage from './songList/SonglistPage';
 import ManagePlaylistsPage from './managePlaylists/ManagePlaylistsPage';
 import SummaryPage from './summary/SummaryPage';
+import WordBrainSolver from './wordBrainSolver/WordBrainSolver';
+
 
 function App(){
         return(
@@ -22,6 +24,7 @@ function App(){
                     <Route path="/songlist" component={SongListPage} />
                     <Route path="/managePlaylists" component={ManagePlaylistsPage} />
                     <Route path="/summary" component={SummaryPage} />
+                    <Route path="/wordBrain" component={WordBrainSolver} />
                 </Switch>
             </div>
         );

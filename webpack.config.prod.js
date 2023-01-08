@@ -68,7 +68,6 @@ module.exports = {
             {
                 loader: 'postcss-loader',
                 options:{
-                    plugins: ()=> [require("cssnano")],
                     sourceMap:true
                 }
             }
