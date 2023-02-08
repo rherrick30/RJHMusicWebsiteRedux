@@ -28,6 +28,9 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.API_URL":JSON.stringify("http://localhost:3001/")
     }),
+    new webpack.DefinePlugin({
+      "process.env.WB_URL":JSON.stringify("http://localhost:9000/")
+    }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       favicon: "src/rjh.ico"

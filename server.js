@@ -7,6 +7,19 @@ const dotenv = require('dotenv').config();
 
 
 app.use(
+	proxy('/wbApi', {
+		xfwd: true,
+		target: process.env.JAVA_API_CONTAINER_URL || 'http://javaserver:9000/',
+		changeOrigin: false,
+		ws: true,
+		pathRewrite: {
+			'^/wbApi': '',
+		},
+		logLevel: process.env.HTTP_PROXY_LOG_LEVEL || 'debug',
+	})
+);
+
+app.use(
 	proxy('/api', {
 		xfwd: true,
 		target: process.env.API_CONTAINER_URL || 'http://node:3001/',
@@ -18,6 +31,7 @@ app.use(
 		logLevel: process.env.HTTP_PROXY_LOG_LEVEL || 'silent',
 	})
 );
+
 
 
 app.use(express.static(path.resolve(__dirname, 'build')));

@@ -1,0 +1,27 @@
+h4 {
+    display: inline-block;
+    min-width: 5em;
+    text-align: left;
+    padding-left: 3.5em;
+
+}
+
+.board{
+    width: 50em;
+}
+
+.entry{
+    display: block;
+}
+
+.length{
+    width:5em;
+}
+
+.presolvedWords{
+    width: 20em;
+}
+
+.buttons {
+    display:block;
+}

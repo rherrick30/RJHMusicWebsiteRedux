@@ -19,6 +19,7 @@ const SummaryPage = () => {
 
     useEffect(()=>{
         if(category!== ""){
+          
             apiHelper.getSummary(category).then(
                 result => { 
                     let sortedResults = (()=>{

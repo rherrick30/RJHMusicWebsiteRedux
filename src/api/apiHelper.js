@@ -1,35 +1,7 @@
-import axios from 'axios';
-
+import {getFunction, postFunction, putFunction, deleteFunction} from './apiExecutor'
 
 //const baseUrl = '/api/' 
 const baseUrl = process.env.API_URL;
-
-const axiosExecutor =  (axiosFunction, url, data) => {
-        return new Promise((resolve) => {
-            axiosFunction(url, data).then(resp => {
-                resolve(resp.data);
-            });
-        });
-};
-
-
-const getFunction = (url, configOptions) => {
-    return axiosExecutor(axios.get, url, configOptions);
-};
-
-const postFunction = (url, data) => {
-    return axiosExecutor(axios.post, url, data);
-};
-
-const putFunction = (url, data) => {
-    return axiosExecutor(axios.put, url, data);
-};
-
-const deleteFunction = (url, data) => {
-    return axiosExecutor(axios.delete, url, data );
-};
-
-
 
 const apiHelper = {
  
