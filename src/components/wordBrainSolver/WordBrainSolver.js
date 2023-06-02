@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {getWordBrainSolutions} from '../../api/wordBrainApi'
 import './wbs.css';
+import EntryBox from './EntryBox';
 
 
 const WordBrainSolver = () => {
@@ -42,9 +43,22 @@ const WordBrainSolver = () => {
 
     const individualLetters = board.split("")
     const sideLen = (individualLetters.length>0)  ? Math.ceil(Math.sqrt(individualLetters.length)) : 0
-    console.log(`len is ${individualLetters.length} with a rowsize of ${sideLen}`)
 
+    const rows = []
+    let currentRow=[]
+    individualLetters.forEach((v)=>{
+        currentRow.push(v);
+        if(currentRow.length==sideLen){
+            rows.push([...currentRow])
+            currentRow =[]
+        }
+    })
+    if(currentRow.length>0){
+rows.push([...currentRow])
+    }
+    
 
+    console.log(rows)
     const executeSearch = async () => {
         setGoEnabled(false);
         setQueryDetail([]);
@@ -63,27 +77,31 @@ const WordBrainSolver = () => {
 
     return(<div>
         <h1>Solver</h1>
-        <div className='entry'>
-            <h4>Length:</h4>
-            <input type="number" className="length" onChange={setSizeChange}/>
+        <div className="endOfLine">
+            <EntryBox label='Board:' type="text" className="board" value={board } onChange={setBoardChange}/>
         </div>
-        <div className='entry'>
-            <h4>Board:</h4>
-            <input type="text" className="board" value={board }onChange={setBoardChange}/>
+        <div>
+        {rows.map((row,i)=>{
+                return(<div key={`letterRow_${i}`}>
+                    {row.map((cell,ndx)=>{
+            return (<div  key={`letterTile_${i}_${ndx}`} className={`letterTile`}>{cell}</div>)
+                    })}
+                </div>)
+                    
+            })}
+
+
         </div>
-        <div className='entry'>
-            <h4>Words:</h4>
-            <input type="text" className="presolvedWords" value={presolved.join(",")} onChange={setPresolvedChange} />
-        </div>
-        <div className='entry'>
-            <h4>Hint:</h4>
-            <input type="text" className="length" value={hint} onChange={setHintChange} />
-        </div>
+        <EntryBox label="Length" type="number" className="length" onChange={setSizeChange} />
+        <EntryBox label='Words:' type="text" className="presolvedWords" value={presolved.join(",")} onChange={setPresolvedChange}/>
+        <EntryBox type="text" label="Hint" className="length" value={hint} onChange={setHintChange}></EntryBox>
+
+
         <div className='buttons'>
             <input type="button" onClick={executeSearch} disabled={!goEnabled} value="search"/>    
             <input type="button" onClick={clearForm} value="clear"/>
-            <text>{errorText}</text>
         </div>
+        <label>{errorText}</label>
         
 
         <div className="queryDetail" >
