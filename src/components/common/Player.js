@@ -191,7 +191,7 @@ const Player = (props) => {
               autoPlay={autoplay}
               onTimeUpdate={timeUpdateHandler}
               onEnded={nextFile} 
-              onLoad={nextFile}>
+              >
           </audio><p />
           <div className="playerControlStrip">
               <a className="playerControl" onClick={reloadSong}><i className="fas fa-step-backward playerbutton"></i></a>

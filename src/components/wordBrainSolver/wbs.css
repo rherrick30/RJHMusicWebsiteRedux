@@ -1,0 +1,51 @@
+h4 {
+    display: block;
+    min-width: 5em;
+    text-align: left;
+}
+
+.board{
+    width: 50em;
+}
+
+.entry{
+    display: block;
+}
+
+.length{
+    width:5em;
+}
+
+.presolvedWords{
+    width: 20em;
+}
+
+.buttons {
+    display:block;
+}
+
+.labelText{
+    font-size: small;
+    display: block;
+}
+
+.entryBox > input {
+    width: 100%;
+}
+
+.entryBox {
+    display: inline-block;
+    margin: 5px;
+}
+
+
+.letterTile {
+    display: inline-block;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    height: 20px;
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+}

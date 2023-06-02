@@ -1,8 +1,11 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 
 process.env.NODE_ENV = "development";
+const stylesHandler = "style-loader";
+
 
 module.exports = {
   mode: "development",
@@ -15,22 +18,24 @@ module.exports = {
     filename: "bundle.js"
   },
   devServer: {
-    stats: "minimal",
-    overlay: true,
     historyApiFallback: true,
-    disableHostCheck: true,
+    allowedHosts: "all",
     headers: { "Access-Control-Allow-Origin": "*" },
     https: false,
-    contentBase: path.resolve(__dirname, 'src')
+    static: path.resolve(__dirname, 'src')
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env.API_URL":JSON.stringify("http://localhost:3001/")
     }),
+    new webpack.DefinePlugin({
+      "process.env.WB_URL":JSON.stringify("http://localhost:9000/")
+    }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       favicon: "src/rjh.ico"
-    })
+    }),
+    new ErrorOverlayPlugin()
   ],
   module: {
     rules: [
@@ -40,8 +45,12 @@ module.exports = {
         use: ["babel-loader", "eslint-loader"]
       },
       {
-        test: /\.(css)$/,
-        use: ["style-loader", "css-loader?url=false"]
+        test: /\.css$/i,
+        use: [stylesHandler, "css-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [stylesHandler, "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/,

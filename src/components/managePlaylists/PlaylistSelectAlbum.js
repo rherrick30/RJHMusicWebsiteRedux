@@ -1,6 +1,5 @@
 import React from 'react';
 import PlaylistSelectionBase from './PlaylistSelectionBase';
-import { isArray } from 'util';
 import PlaylistSourceItem from './PlaylistSourceItem';
 import apiHelper from '../../api/apiHelper'
 import Selector from '../controls/Selector'
