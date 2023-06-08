@@ -6,7 +6,7 @@ const SongDetail = (props) => {
         props.addSongsEndFunction([props.song]);
     }
     return(<li className="albumListSongTitle">
-                <div className="tooltip"><span className="tooltiptext">Add to end of playlist</span><a onClick={_onClickEnd} href="#"><i className="fas fa-plus-circle defaultColor"></i></a></div>
+                <div className="tooltip"><span className="tooltiptext">Add to end of playlist</span><a onClick={_onClickEnd} href="#"><i className={`fas fa-plus-circle ${(props.song.exists) ? "defaultColor" : "disabledColor"}`}></i></a></div>
                 {'   ' + props.song.songName}</li>);
 }
 

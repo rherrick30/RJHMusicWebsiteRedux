@@ -10,6 +10,10 @@ body {
     color: black;
 }
 
+.disabledColor {
+  color: lightgrey;
+}
+
 .auxColor {
   color: darkblue;
 }

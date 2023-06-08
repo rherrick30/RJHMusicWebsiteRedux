@@ -9,7 +9,7 @@ const AlbumDetail = (props) => {
     
     const addSongsToListTop = (songs) => {
         props.playlistActions.addPlaylistNext({
-            songs: songs.map( s => {
+            songs: songs.filter(s=> s.exists).map( s => {
                  return Object.assign({}, s, {
                     title : props.album.title,
                     artist : props.artistName,
@@ -22,7 +22,7 @@ const AlbumDetail = (props) => {
     const addSongsToListEnd = (songs) => {
         let newSongs = [];
         // add suplimentary info for the player
-        songs.forEach(s=>{
+        songs.filter(s=> s.exists).forEach(s=>{
             let newSong = Object.assign({}, s);
             
             newSong.title = props.album.title;
@@ -43,7 +43,7 @@ const AlbumDetail = (props) => {
     return(<div>
                 
                 <div className="tooltip"><span className="tooltiptext">Move all songs to playlist (end)</span>
-                <a href="#" onClick={addEntireAlbum}><i className="fas fa-plus-circle defaultColor"></i></a></div>
+                <a href="#" onClick={addEntireAlbum}><i className={`fas fa-plus-circle ${(album.songs.filter(s=> s.exists).length > 0) ? "defaultColor" : "disabledColor"}`}></i></a></div>
                 <span className="artistListAlbumTitle">{'   ' + album.title}</span> (Released {album.releaseYear}, purchased {album.aquisitionYear})
                 <ul className="artistListSongList">
                 {album.songs.map(s =>{

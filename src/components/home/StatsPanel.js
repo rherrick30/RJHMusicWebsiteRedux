@@ -9,8 +9,12 @@ const StatsPanel = (props) =>  {
 
     const albumFormat = (a) => {
         let result = [];
+        const addableSongs = a.songs.reduce((p,c)=> {
+            p += (c.exists) ? 1 : 0
+            return p
+        }, 0);
         result.push(<div>
-            <a href="#" onClick={()=>{addToPlaylist(a)}}><i className="fas fa-plus-circle defaultColor"></i></a>
+            <a href="#" onClick={()=>{addToPlaylist(a)}}><i className={`fas fa-plus-circle ${(addableSongs>0) ? "defaultColor" : "disabledColor"}`}></i></a>
             {'   '}
             <span className="homeAlbumTitle auxColor">{a.title}</span> by <span className="homeAlbumArtist">{a.artist}</span>
             </div>);
@@ -19,7 +23,7 @@ const StatsPanel = (props) =>  {
    
     const addToPlaylist = (album) => {
         props.playlistActions.pushPlaylist({
-            songs: album.songs.map(s=>{
+            songs: album.songs.filter(s=> s.exists).map(s=>{
                 return Object.assign({}, s, {title: album.title, artist: album.artist})
             })
         });
