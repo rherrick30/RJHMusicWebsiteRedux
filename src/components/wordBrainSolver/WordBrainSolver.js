@@ -47,7 +47,8 @@ const WordBrainSolver = () => {
     const rows = []
     let currentRow=[]
     individualLetters.forEach((v)=>{
-        currentRow.push(v);
+        const safeLetter = (v == " ") ? "_" : v
+        currentRow.push(safeLetter);
         if(currentRow.length==sideLen){
             rows.push([...currentRow])
             currentRow =[]
@@ -79,6 +80,7 @@ rows.push([...currentRow])
         <h1>Solver</h1>
         <div className="endOfLine">
             <EntryBox label='Board:' type="text" className="board" value={board } onChange={setBoardChange}/>
+            <input type="button" onClick={clearForm} value="clear"/>
         </div>
         <div>
         {rows.map((row,i)=>{
@@ -99,7 +101,6 @@ rows.push([...currentRow])
 
         <div className='buttons'>
             <input type="button" onClick={executeSearch} disabled={!goEnabled} value="search"/>    
-            <input type="button" onClick={clearForm} value="clear"/>
         </div>
         <label>{errorText}</label>
         
