@@ -108,7 +108,7 @@ rows.push([...currentRow])
         <div className="queryDetail" >
                 <div className="queryDetailHeader">Results:</div>
                     {queryDetail.map((r, ndx)=>{
-                        return(<div key={`results_${ndx}`} className="queryDetailItem">{r}<br/></div>)
+                        return(<div key={`results_${ndx}`} className="queryDetailItem"><a target="#" onClick={()=>setPresolved(r.split(","))}>{r}</a><br/></div>)
                     })}
             </div>
 
