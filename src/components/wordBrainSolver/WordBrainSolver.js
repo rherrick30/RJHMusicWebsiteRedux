@@ -4,6 +4,7 @@ import './wbs.css';
 import EntryBox from './EntryBox';
 
 
+
 const WordBrainSolver = () => {
 
     const [board, setBoard] = useState("");
@@ -25,6 +26,7 @@ const WordBrainSolver = () => {
     }
     
     const setSizeChange = sender => {
+        console.log(`current size is ${sender.target.valueAsNumber}`)
         setSizes([sender.target.valueAsNumber])
     }
 
@@ -59,7 +61,6 @@ rows.push([...currentRow])
     }
     
 
-    console.log(rows)
     const executeSearch = async () => {
         setGoEnabled(false);
         setQueryDetail([]);
@@ -80,7 +81,7 @@ rows.push([...currentRow])
         <h1>Solver</h1>
         <div className="endOfLine">
             <EntryBox label='Board:' type="text" className="board" value={board } onChange={setBoardChange}/>
-            <input type="button" onClick={clearForm} value="clear"/>
+            <input type="button" className="wbsbutton" onClick={clearForm} value="clear"/>
         </div>
         <div>
         {rows.map((row,i)=>{
@@ -94,13 +95,14 @@ rows.push([...currentRow])
 
 
         </div>
-        <EntryBox label="Length" type="number" className="length" onChange={setSizeChange} />
+        <div className="sizeLabel">Length: {sizes[0]}</div>
+        <input label="Length" className="sizeSelector" type="range" min="3" max="15" onChange={setSizeChange} />
         <EntryBox label='Words:' type="text" className="presolvedWords" value={presolved.join(",")} onChange={setPresolvedChange}/>
-        <EntryBox type="text" label="Hint" className="length" value={hint} onChange={setHintChange}></EntryBox>
-
+        <EntryBox type="text" label="Hint" className="hint" value={hint} onChange={setHintChange}></EntryBox>
+        <input type="button" className="wbsbutton" onClick={executeSearch} disabled={!goEnabled} value="search"/>    
 
         <div className='buttons'>
-            <input type="button" onClick={executeSearch} disabled={!goEnabled} value="search"/>    
+            
         </div>
         <label>{errorText}</label>
         
