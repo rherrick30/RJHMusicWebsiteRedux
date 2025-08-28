@@ -12,12 +12,25 @@ h4 {
     display: block;
 }
 
-.length{
+.hint{
     width:5em;
 }
 
 .presolvedWords{
     width: 20em;
+}
+
+.sizeLabel {
+      font-size: 1.1em;
+      font-weight: bold;
+      padding-bottom: 5px;
+      display: inline;
+}
+
+.sizeSelector{
+    width: 20em;
+    background: transparent;
+    display: block;
 }
 
 .buttons {
@@ -38,6 +51,11 @@ h4 {
     margin: 5px;
 }
 
+.wbsbutton {
+    background-color: white;
+    margin: 5px;
+    width: 5em
+}
 
 .letterTile {
     display: inline-block;
